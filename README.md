@@ -1,2 +1,5 @@
-# ProLab2024
-##
+# Ievads
+
+# Līdzīgo risinājumu pārskats
+
+# Tehniskais risinājums
