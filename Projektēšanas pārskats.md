@@ -5,5 +5,6 @@
 > Izstrādāt piegādes maršrutēšanas sistēmu, kas ļaus efektīvāk plānot produkcijas piegādes maršrutus, samazināt piegādes termiņus, izmaksas un ceļā pavadīto laiku, tādējādi optimizējot loģistiku. Sistēmai būs automātiski jāaprēķina optimālais maršruts un izvērtēt piegādes efektivitāti atkarībā no lietotāja uzstādītajiem parametriem.
 
 # Līdzīgo risinājumu pārskats
-
+### Līdzīgi tehniskie risinājumi
+>
 # Tehniskais risinājums
