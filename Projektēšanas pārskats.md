@@ -19,7 +19,7 @@
 |                                       |                         |                               |                   |
 |                                       |                         |                               |                   |
 ### Līdzīgu tehnisko risinājumu intelektuālais algoritms
-> Visi līdzīgie tehniskie risinājumi izmanto transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmus, kas ir apkopots no Ceļojošā komivojažiera uzdevuma (TSP), kuras uzdevums ir optimizēt maršrutus vairākiem transportlīdzekļiem, izejot cauri visām pilsētām, kurām nepieciešams veikt minimālu attālumu un laiku. Šādu uzdevumu risināšanas algoritms ir pietiekami daudz, kas savukārt padara neiespējamu to definēt komerciālos projektos. Tomēr ir daudz atvērtu freimvorku šādu uzdevumu risināšanai, piemēram, Google OR-Tools, OptaPlanner, VROOM, Jsprit.
+> Visi līdzīgie tehniskie risinājumi izmanto transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmus, kas ir apkopots no ceļojošā komivojažiera uzdevuma (TSP), kuras uzdevums ir optimizēt maršrutus vairākiem transportlīdzekļiem, izejot cauri visām pilsētām, kurām nepieciešams veikt minimālu attālumu un laiku. Šādu uzdevumu risināšanas algoritms ir pietiekami daudz, kas savukārt padara neiespējamu to definēt komerciālos projektos. Tomēr ir daudz atvērtu freimvorku šādu uzdevumu risināšanai, piemēram, Google OR-Tools, OptaPlanner, VROOM, Jsprit.
 # Tehniskais risinājums
 ### Prasības
 ### Konceptu modelis
