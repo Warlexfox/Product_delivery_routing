@@ -8,8 +8,7 @@
 ### Līdzīgi tehniskie risinājumi
 * [Routific](https://www.routific.com) 
 > Maksas piegādes maršrutu optimizācijas serviss, kas palīdz uzņēmumiem plānot un vadīt kurjeru, transportlīdzekļu maršrutus. Tas tiek izmantots loģistikā, lai uzlabotu preču piegādes efektivitāti, samazinātu laiku ceļā un uzlabotu klientu apkalpošanu. Serviss automātiski būvē maršrutus, ņemot vērā kurjeru skaitu, piegādes punktus, un ceļa apstākļus, tāpat prot reālā laikā atjaunināt maršrutus, izmantot kompānijas analītiku un atskaites, izmantojot transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmus ar mākslīgā intelekta apvienošanu. Tas var integrēties citos servisos caur API, piemēram, e-komercijas platformām vai noliktavu vadības sistēmām. Servisam ir ērta saskarne, kā arī mobilā aplikācija.
-<br>
-*[Route4me](https://www.route4me.com/)
+* [Route4me](https://www.route4me.com/)
 >  Maršrutu plānošanas un optimizācijas programmatūra, ko izmanto loģistikas, piegādes pakalpojumu, lauka servisa pārvaldības un transporta nozarēs. Tā ļauj lietotājiem ātri izveidot optimizētus maršrutus ar vairākiem galamērķiem. Galvenās iespējas ietver reāllaika maršrutu optimizāciju, GPS izsekošanu, mobilo lietotņu integrāciju un analītiku. Route4Me izceļas tirgū ar lietošanas ērtumu, mērogojamību dažāda lieluma uzņēmumiem un tiek apgalvots, ka viņi izmanto progresīvus optimizācijas algoritmus, kas spēj efektīvi apstrādāt sarežģītas maršrutu plānošanas vajadzības.
 ### Apkopoti novērojumi
 |     Tehniskā risinājuma nosaukums     |     Funkcionalitāte     |     Izmantotais algoritms     |     Izmaksas      |
