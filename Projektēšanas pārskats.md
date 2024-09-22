@@ -13,7 +13,7 @@
 ### Apkopoti novērojumi
 |     Tehniskā risinājuma nosaukums     |     Funkcionalitāte     |     Izmantotais algoritms     |     Izmaksas      |
 |---------------------------------------|-------------------------|-------------------------------|-------------------|
-|Routific                               |- būvē maršrutus, ņemot vērā kurjeru skaitu, piegādes punktus, un ceļa apstākļus <br>- prot reāllaikā atjaunināt maršrutus, izmantot uzņēmuma analīzi un pārskatus|transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmi|Maksas tehniskais risinājums abonementa veidā|
+|Routific                               |- būvē maršrutus, ņemot vērā kurjeru skaitu, piegādes punktus, un ceļa apstākļus <br>- prot reāllaikā atjaunināt maršrutus, izmantot uzņēmuma analīzi un pārskatus|transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmi|Maksas tehniskais risinājums abonementa veidā no 39; līdz 93$ atkarībā no abonēšanas formas|
 |Route4me                               |- Reāllaika maršrutu pielāgošana un GPS izsekošana <br> -Mobilās lietotnes Android un iOS ierīcēm <br> - Integrācija ar citām sistēmām caur API <br> - Analītika un atskaites par maršrutu efektivitāti <br> - Klientu paziņojumi un ETA (paredzamā ierašanās laika) informācija| -Vehicle Routing Problem, VRP <br> -Traveling Salesman Problem, TSP |Risinājums tiek tirgots abonamenta formā un tā cena sākas no 200$ mēnesī|
 |                                       |                         |                               |                   |
 |                                       |                         |                               |                   |
