@@ -11,7 +11,7 @@
 * [Route4me](https://www.route4me.com/)
 >  Maršrutu plānošanas un optimizācijas programmatūra, ko izmanto loģistikas, piegādes pakalpojumu, lauka servisa pārvaldības un transporta nozarēs. Tā ļauj lietotājiem ātri izveidot optimizētus maršrutus ar vairākiem galamērķiem. Galvenās iespējas ietver reāllaika maršrutu optimizāciju, GPS izsekošanu, mobilo lietotņu integrāciju un analītiku. Route4Me izceļas tirgū ar lietošanas ērtumu, mērogojamību dažāda lieluma uzņēmumiem un tiek apgalvots, ka viņi izmanto progresīvus optimizācijas algoritmus, kas spēj efektīvi apstrādāt sarežģītas maršrutu plānošanas vajadzības.
 >
-> [OptimoRoute] (https://optimoroute.com/)
+* [OptimoRoute](https://optimoroute.com/)
 > OptimoRoute ir mākoņpakalpojums, kas palīdz plānot un optimizēt piegādes maršrutus un grafikus, nodrošinot efektīvāku darbību. Tas piedāvā automatizētu plānošanu un vadītāju mobilo lietotni, kas sniedz detalizētus maršrutus un klientu informāciju. Tiešraides izsekošana ļauj redzēt vadītāju atrašanās vietu un sniedz aptuveno ierašanās laiku. Klienti saņem paziņojumus par piegādes statusu, un piegādes var apstiprināt ar parakstiem un fotogrāfijām. OptimoRoute nodrošina integrāciju ar citām sistēmām, piemēram, e-komercijas platformām, lai automatizētu pasūtījumu izpildi. Analītikas rīki palīdz uzlabot veiktspēju un identificēt problēmas, nodrošinot augstas kvalitātes pakalpojumu
 ### Apkopoti novērojumi
 |     Tehniskā risinājuma nosaukums     |     Funkcionalitāte     |     Izmantotais algoritms     |     Izmaksas      |
