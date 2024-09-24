@@ -10,7 +10,8 @@
 > Maksas piegādes maršrutu optimizācijas serviss, kas palīdz uzņēmumiem plānot un vadīt kurjeru, transportlīdzekļu maršrutus. Tas tiek izmantots loģistikā, lai uzlabotu preču piegādes efektivitāti, samazinātu laiku ceļā un uzlabotu klientu apkalpošanu. Serviss automātiski būvē maršrutus, ņemot vērā kurjeru skaitu, piegādes punktus, un ceļa apstākļus, tāpat prot reālā laikā atjaunināt maršrutus, izmantot kompānijas analītiku un atskaites, izmantojot transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmus ar mākslīgā intelekta apvienošanu. Tas var integrēties citos servisos caur API, piemēram, e-komercijas platformām vai noliktavu vadības sistēmām. Servisam ir ērta saskarne, kā arī mobilā aplikācija.
 * [Route4me](https://www.route4me.com/)
 >  Maršrutu plānošanas un optimizācijas programmatūra, ko izmanto loģistikas, piegādes pakalpojumu, lauka servisa pārvaldības un transporta nozarēs. Tā ļauj lietotājiem ātri izveidot optimizētus maršrutus ar vairākiem galamērķiem. Galvenās iespējas ietver reāllaika maršrutu optimizāciju, GPS izsekošanu, mobilo lietotņu integrāciju un analītiku. Route4Me izceļas tirgū ar lietošanas ērtumu, mērogojamību dažāda lieluma uzņēmumiem un tiek apgalvots, ka viņi izmanto progresīvus optimizācijas algoritmus, kas spēj efektīvi apstrādāt sarežģītas maršrutu plānošanas vajadzības.
->
+* [Google Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)
+> Google Distance Matrix API ir rīks, kas ļauj lietotājiem iegūt attālumus un ceļošanas laikus starp vairākiem sākuma un galamērķiem. Tas tiek izmantots vairākās nozarēs, sākot no loģistikas un piegādes plānošanas līdz maršrutu optimizācijai un pakalpojumu vietas noteikšanai. API aprēķina attālumus, ņemot vērā dažādus transporta veidus, piemēram, auto transportu, velosipēdu, staigāšanu un sabiedrisko transportu.
 * [OptimoRoute](https://optimoroute.com/)
 > OptimoRoute ir mākoņpakalpojums, kas palīdz plānot un optimizēt piegādes maršrutus un grafikus, nodrošinot efektīvāku darbību. Tas piedāvā automatizētu plānošanu un vadītāju mobilo lietotni, kas sniedz detalizētus maršrutus un klientu informāciju. Tiešraides izsekošana ļauj redzēt vadītāju atrašanās vietu un sniedz aptuveno ierašanās laiku. Klienti saņem paziņojumus par piegādes statusu, un piegādes var apstiprināt ar parakstiem un fotogrāfijām. OptimoRoute nodrošina integrāciju ar citām sistēmām, piemēram, e-komercijas platformām, lai automatizētu pasūtījumu izpildi. Analītikas rīki palīdz uzlabot veiktspēju un identificēt problēmas, nodrošinot augstas kvalitātes pakalpojumu. OptimoRoute izmanto transportlīdzekļu maršrutēšanas problēmas (VRP) algoritmus, lai atrastu optimālus risinājumus sarežģītās loģistikas situācijās.
 * [Onfleet](https://onfleet.com/)
@@ -36,6 +37,7 @@
 * Integrācijas prasības:
 > Sistēmai jābūt savietojamai ar citām e-komercijas platformām un noliktavu pārvaldības sistēmām, nodrošinot piekļuvi.
 ### Algoritms
+> Tiks izmantoti transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmi un ceļojošā komivojažiera (TSP) uzdevuma algoritmi, piegādes maršrutu optimizēšanā. Sistēma spēs izmantot arī dinamisko maršruta korekciju, kas ļauj mainīt piegādes plānu reāllaikā, ņemot vērā ceļa apstākļus un citus ietekmējušos faktorus. Tiks arī iekļauti mašīnmācīšanās algoritmi, lai analīzētu iepriekšējo piegāžu datus un prognozētu pieprasījumus.
 ### Konceptu modelis
 ### Tehnoloģiju steks
 ### Programmatūras apraksts
