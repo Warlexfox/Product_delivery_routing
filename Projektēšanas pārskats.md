@@ -28,13 +28,13 @@
 # Tehniskais risinājums
 ### Prasības
 * Lietotāja prasības:
-> Sistēmai jānodrošina iespēja lietotājam plānot, pārraudzīt un optimizēt piegādes maršrutus, balstoties uz mainīgiem faktoriem, piemēram, satiksmes apstākļiem, piegādes vietām un laika termiņiem.
+> Sistēmai jānodrošina iespēja lietotājam plānot, pārraudzīt un optimizēt piegādes maršrutus, balstoties uz mainīgiem faktoriem, piemēram, satiksmes apstākļiem, piegādes vietām un laika ierobežojumiem.
 * Veiktspējas prasības:
 > Sistēmai jābūt spējīgai veikt optimizāciju reāllaikā, izmantojot pieejamos datus par maršrutiem un satiksmi.
 * Drošības prasības:
 > Sistēmai jānodrošina datu šifrēšana un droša piekļuve lietotājiem, lai aizsargātu piegādes datus un klientu informāciju.
 * Integrācijas prasības:
-> Sistēmai jābūt savietojamai ar citām e-komercijas platformām un noliktavu pārvaldības sistēmām, nodrošinot API piekļuvi.
+> Sistēmai jābūt savietojamai ar citām e-komercijas platformām un noliktavu pārvaldības sistēmām, nodrošinot piekļuvi.
 ### Algoritms
 ### Konceptu modelis
 ### Tehnoloģiju steks
