@@ -26,4 +26,16 @@
 |Onfleet                                |- Dispečerim ir lieliska iespēja uzreiz pārredzēt optimizēt un pārvaldīt pasūtījumus reāllaikā, pievienojot un mainot noteikto maršrutu <br> - Piegādes ceļa optimizācija ir lielisks veids, kā samazināt izmaksas <br> - Reāllaika čats ar piegādātāju un iespēju to pārvaldīt <br> - Datu apkopojums un viegla to pārredzamība|- Ceļojošās komivojažiera problēmu uzdevuma risināšanas algoritmi (TSP) <br> - Transportlīdzekļu maršrutēšanas problēmu risinājuma algoritmi (VRP) <br> - Reāllaika maršrutu korekcijas algoritmi, kas ļauj izmantot dinamisko maršruta plānošanu <br> - Uzdevumu piešķiršanas algoritmi, kuri ļauj automātiski piešķirt piegādes produktu kurjeriem <br> - Datu analīzes un prognozēšanas algoritmi, kuri ietver sevī mašīnmācīšanās algoritmus, kuri ļauj analīzēt iepriekšējos piegāžu datus un prognozēt turpmākos pieprasījumus un iespējamās problēmas|Maksas tehniskais risinājums, kuram ir 3 abonementa tipi, kas sākas no 550 $mēnesī līdz individuālajai cenai kurā ietilpst tehniskais atbalsts, kā arī dažādi papildu instrumenti un risinājumi|
 ### Līdzīgu tehnisko risinājumu intelektuālais algoritms
 > Visi līdzīgie tehniskie risinājumi izmanto transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmus, kas ir apkopots no ceļojošā komivojažiera uzdevuma (TSP), kuras uzdevums ir optimizēt maršrutus vairākiem transportlīdzekļiem, izejot cauri visām pilsētām, kurām nepieciešams veikt minimālu attālumu un laiku. Šādu uzdevumu risināšanas algoritms ir pietiekami daudz, kas savukārt padara neiespējamu to definēt komerciālos projektos. Tomēr ir daudz atvērtu freimvorku šādu uzdevumu risināšanai, piemēram, Google OR-Tools, OptaPlanner, VROOM, Jsprit.
+# Tehniskais risinājums
+### Prasības
+|     Nr.     |     Lietotāju stāsts     |     Prioritāte     |
+|-------------|--------------------------|--------------------|
+|      1.     |Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|                    |
+|      2.     |                          |                    |
+|      3.     |                          |                    |
+|      4.     |                          |                    |
+|      5.     |                          |                    |
 
+### Algoritms
+
+### Konceptu modelis
