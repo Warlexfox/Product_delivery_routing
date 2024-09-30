@@ -32,7 +32,7 @@
 |-------------|--------------------------|--------------------|
 |      1.     |Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|                    |
 |      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.                         |                    |
-|      3.     |                          |                    |
+|      3.     | Maršrutu plānotājs vēlās, lai lietotne sastādītu maršrutu, balstoties uz piegādes punktiem un piegāde laiku, lai pēc iespējas vairāk samazinātu braukšanas laiku.                           |                    |
 |      4.     |                          |                    |
 |      5.     |                          |                    |
 
