@@ -31,7 +31,7 @@
 |     Nr.     |     Lietotāju stāsts     |     Prioritāte     |
 |-------------|--------------------------|--------------------|
 |      1.     |Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|                    |
-|      2.     |                          |                    |
+|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.                         |                    |
 |      3.     |                          |                    |
 |      4.     |                          |                    |
 |      5.     |                          |                    |
