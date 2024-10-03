@@ -36,11 +36,22 @@
 |      4.     | Menedžeris vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju.|                    |
 |      5.     | Menedžeris vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas.|                    |
 |      6.     | Menedžeris vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus un piegāžu maršrutu vēsturi, jo tas nodrošina caurspīdīgumu un izsekojamību.|               |
-|      7.     | Šoferis vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|                    |
+|      7.     | Autovadītājs vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|                    |
 |      8.     | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, jo tas nodrošina analīzi un ērtu piekļuvi datiem.|                    |
-|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.                                             |                    |
-|      10.    | Menedžeris vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, jo tas samazina izmaksās dažādiem vadītājiem.                     |                    |
+|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.|                    |
+|      10.    | Menedžeris vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, jo tas samazina izmaksās dažādiem vadītājiem.|                    |
 
 ### Algoritms
 
 ### Konceptu modelis
+### Tehnoloģiju steks
+* Frontend
+> HTML <br>
+> JavaScript <br>
+> CSS <br>
+* Backend
+> Satvars: Flask <br>
+> Programmēšanas valoda: Python <br>
+> OS: Ubuntu Server <br>
+> Tīmekļa serveris: Nginx +  Ngrok / Azure <br>
+> Datu bāze: PostgreSQL / SQLite <br>
