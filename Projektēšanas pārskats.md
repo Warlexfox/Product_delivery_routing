@@ -46,12 +46,12 @@
 ### Konceptu modelis
 ### Tehnoloģiju steks
 * Frontend
-> * HTML <br>
-> * JavaScript <br>
-> * CSS <br>
+> - HTML <br>
+> - JavaScript <br>
+> - CSS <br>
 * Backend
-> * Satvars: Flask <br>
-> * Programmēšanas valoda: Python <br>
-> * OS: Ubuntu Server <br>
-> * Tīmekļa serveris: Nginx +  Ngrok / Azure <br>
-> * Datu bāze: PostgreSQL / SQLite <br>
+> - Satvars: Flask <br>
+> - Programmēšanas valoda: Python <br>
+> - OS: Ubuntu Server <br>
+> - Tīmekļa serveris: Nginx +  Ngrok / Azure <br>
+> - Datu bāze: PostgreSQL / SQLite <br>
