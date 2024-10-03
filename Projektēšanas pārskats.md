@@ -28,18 +28,18 @@
 > Visi līdzīgie tehniskie risinājumi izmanto transportlīdzekļu maršrutēšanas uzdevuma (VRP) risinājuma algoritmus, kas ir apkopots no ceļojošā komivojažiera uzdevuma (TSP), kuras uzdevums ir optimizēt maršrutus vairākiem transportlīdzekļiem, izejot cauri visām pilsētām, kurām nepieciešams veikt minimālu attālumu un laiku. Šādu uzdevumu risināšanas algoritms ir pietiekami daudz, kas savukārt padara neiespējamu to definēt komerciālos projektos. Tomēr ir daudz atvērtu freimvorku šādu uzdevumu risināšanai, piemēram, Google OR-Tools, OptaPlanner, VROOM, Jsprit.
 # Tehniskais risinājums
 ### Prasības
-|     Nr.     |     Lietotāju stāsts     |     Prioritāte, <br> no 100%    |
-|-------------|--------------------------|----------------------|
-|      1.     | Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus un zināt kad un cikos atnāks viņa sūtījums, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|25%                    |
-|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.|75%                    |
-|      3.     | Menedžeris vēlas, lai lietotne efektīvi sastādītu maršrutu, balstoties uz piegādes punktiem un piegādes laiku, jo vēlas pēc iespējas vairāk samazinātu braukšanas laiku.|75%                    |
-|      4.     | Menedžeris vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju.|50%                    |
-|      5.     | Menedžeris vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas.|75%                    |
-|      6.     | Menedžeris vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus un piegāžu maršrutu vēsturi, jo tas nodrošina caurspīdīgumu un izsekojamību.|75%               |
-|      7.     | Autovadītājs vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|25%                    |
-|      8.     | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, jo tas nodrošina analīzi un ērtu piekļuvi datiem.|50%                    |
-|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.|50%                    |
-|      10.    | Menedžeris vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, jo tas samazina izmaksās dažādiem vadītājiem.|75%                    |
+|     Nr.     |     Lietotāju stāsts     |     Prioritāte, <br> MoSCoW metode    |
+|-------------|--------------------------|---------------------------------------|
+|      1.     | Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus un zināt kad un cikos atnāks viņa sūtījums, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|Must have                   |
+|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.|Must have                   |
+|      3.     | Menedžeris vēlas, lai lietotne efektīvi sastādītu maršrutu, balstoties uz piegādes punktiem un piegādes laiku, jo vēlas pēc iespējas vairāk samazinātu braukšanas laiku.|Must have                    |
+|      4.     | Menedžeris vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju.|Could have                    |
+|      5.     | Menedžeris vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas.|Must have                    |
+|      6.     | Menedžeris vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus un piegāžu maršrutu vēsturi, jo tas nodrošina caurspīdīgumu un izsekojamību.|Could have               |
+|      7.     | Autovadītājs vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|Could have                    |
+|      8.     | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, jo tas nodrošina analīzi un ērtu piekļuvi datiem.|Should have                    |
+|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.|Should have                    |
+|      10.    | Menedžeris vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, jo tas samazina izmaksās dažādiem vadītājiem.|Would not have                    |
 
 ### Algoritms
 
