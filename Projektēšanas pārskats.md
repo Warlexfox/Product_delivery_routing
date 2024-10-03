@@ -30,21 +30,16 @@
 ### Prasības
 |     Nr.     |     Lietotāju stāsts     |     Prioritāte     |
 |-------------|--------------------------|--------------------|
-|      1.     | Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|                    |
-|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.                         |                    |
-|      3.     | Maršrutu plānotājs vēlas, lai lietotne efektīvi sastādītu maršrutu, balstoties uz piegādes punktiem un piegādes laiku, jo vēlas pēc iespējas vairāk samazinātu braukšanas laiku.                           |                    |
-|      4.     | Maršruta plānotājs vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju                          |                    |
-|      5.     | Maršruta plānotājs vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas                      |                    |
-|      6.     | Maršruta plānotājs vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus                         |                    |
-|      7.     | Maršruta plānotājs vēlas uzturēt piegāžu maršrutu vēsturi                         |                    |
-|      8.     | Autovadītājs vēlas redzēt tikai sev aktuālo informāciju(tikai savus piegādes maršrutus)                         |                    |
-|      9.     | Saņēmējs vēlas zināt kad un cikos atnāks viņa sūtījums                         |                    |
-|      10.    | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, par mašīnu un autovadītāju noslodzi                          |                    |
-|      11.    | Menedžeris vēlas redzēt statistiku risinājuma vietnē gan uz datora, gan uz telefona                         |                    |
-|      12.    | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, lai pašiem būtu mazāk darba                         |                    |
-|      13.    | Maršruta plānotājs vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, lai mazāk maksātu dažādiem vadītājiem                         |                    |
-|      14.    | Maršruta plānotājs vēlas iespēju pielabot detaļas jau gatavā maršrutā(manuāli pievienot vēl vienu galamērķi/izmainīt maršruta ceļu/laiku/vadītāju), ja uzskata, ka dotais maršruts nav iekļāvis kādu svarīgu informāciju, vai arī vēlas steidzami pievienot sīku labojumu                         |                    |
-|      15.    |                          |                    |
+|      1.     | Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus un zināt kad un cikos atnāks viņa sūtījums, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|                    |
+|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.|                    |
+|      3.     | Menedžeris vēlas, lai lietotne efektīvi sastādītu maršrutu, balstoties uz piegādes punktiem un piegādes laiku, jo vēlas pēc iespējas vairāk samazinātu braukšanas laiku.|                    |
+|      4.     | Menedžeris vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju.|                    |
+|      5.     | Menedžeris vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas.|                    |
+|      6.     | Menedžeris vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus un piegāžu maršrutu vēsturi, jo tas nodrošina caurspīdīgumu un izsekojamību.|               |
+|      7.     | Šoferis vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|                    |
+|      8.     | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, jo tas nodrošina analīzi un ērtu piekļuvi datiem.|                    |
+|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.                                             |                    |
+|      10.    | Menedžeris vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, jo tas samazina izmaksās dažādiem vadītājiem.                     |                    |
 
 ### Algoritms
 
