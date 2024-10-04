@@ -55,5 +55,5 @@
 > - Satvars: Flask <br>
 > - Programmēšanas valoda: Python <br>
 > - OS: Ubuntu Server <br>
-> - Tīmekļa serveris: Nginx +  Ngrok / Azure <br>
-> - Datu bāze: PostgreSQL / SQLite <br>
+> - Tīmekļa serveris: Ngrok <br>
+> - Datu bāze: SQLite <br>
