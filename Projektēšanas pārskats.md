@@ -35,10 +35,10 @@
 |      3.     | Menedžeris vēlas, lai lietotne efektīvi sastādītu maršrutu, balstoties uz piegādes punktiem un piegādes laiku, jo vēlas pēc iespējas vairāk samazinātu braukšanas laiku.|Must have                    |
 |      4.     | Menedžeris vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju.|Could have                    |
 |      5.     | Menedžeris vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas.|Must have                    |
-|      6.     | Menedžeris vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus un piegāžu maršrutu vēsturi, jo tas nodrošina caurspīdīgumu un izsekojamību.|Could have               |
-|      7.     | Autovadītājs vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|Could have                    |
-|      8.     | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, jo tas nodrošina analīzi un ērtu piekļuvi datiem.|Should have                    |
-|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.|Should have                    |
+|      6.     | Menedžeris vēlas uzturēt atsevišķus, savā starpā nesaistītus, maršrutus un piegāžu maršrutu vēsturi, jo tas nodrošina caurspīdīgumu un izsekojamību.|Must have               |
+|      7.     | Autovadītājs vēlas redzēt tikai savus piegādes maršrutus, jo tas palīdzēs koncentrēties savam darbam.|Should have                    |
+|      8.     | Menedžeris vēlas vākt statistiku par piegādēm: dažāda statistika par nobraukto attālumu, par paku piegādi, jo tas nodrošina analīzi un ērtu piekļuvi datiem.|Could have                    |
+|      9.     | Autovadītāji vēlas, lai slodze būtu sadalīta vienlīdzīgi, jo tas samazinās darba apjomu.|Could have                    |
 |      10.    | Menedžeris vēlas, lai pēc iespējas mazāk vadītāju būtu iesaistīti, jo tas samazina izmaksās dažādiem vadītājiem.|Would not have                    |
 
 ### Algoritms
