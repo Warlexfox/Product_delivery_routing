@@ -44,6 +44,8 @@
 ### Algoritms
 
 ### Konceptu modelis
+![Konceptu modelis](https://github.com/user-attachments/assets/bfbe1728-58e8-409c-95d5-f01c99c65932)
+
 ### Tehnoloģiju steks
 * Frontend
 > - HTML <br>
