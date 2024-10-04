@@ -31,7 +31,7 @@
 |     Nr.     |     Lietotāju stāsts     |     Prioritāte, <br> MoSCoW metode    |
 |-------------|--------------------------|---------------------------------------|
 |      1.     | Klienti vēlas interneta pakalpojumu, kurā var grafiski apskatīt piegādes maršrutus un zināt kad un cikos atnāks viņa sūtījums, jo tas ļaus ērti izsekot vispārīgai informācijai par maršrutiem un arī pārliecināties, vai visi maršruti ir pareizi.|Must have                   |
-|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.|Must have                   |
+|      2.     | Autovadītājs vēlas saņemt aktuālus datus par satiksmes apstākļiem, jo tas palīdz izvairīties no sastrēgumiem un samazināt piegādes kavējumus.|Could have                   |
 |      3.     | Menedžeris vēlas, lai lietotne efektīvi sastādītu maršrutu, balstoties uz piegādes punktiem un piegādes laiku, jo vēlas pēc iespējas vairāk samazinātu braukšanas laiku.|Must have                    |
 |      4.     | Menedžeris vēlas iespēju iedot lietotnei failu ar galamērķu sarakstu, jo nevēlas patstāvīgi pārkopēt informāciju.|Could have                    |
 |      5.     | Menedžeris vēlas veikt CRUD operācijas ar katru esošo maršrutu un tā galamērķi, jo vēlas ātri un viegli izmainīt informāciju, ja viņš nokļūdījās informācijas ievades laikā vai arī ir notikušas izmaiņas.|Must have                    |
