@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Pievienot Lokāciju{% endblock %}
+{% block content %}
+<h1>Pievienot Lokāciju</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.address.label }}<br>
+        {{ form.address(size=32) }}
+    </p>
+    <p>
+        {{ form.demand.label }}<br>
+        {{ form.demand() }}
+    </p>
+    <p>
+        {{ form.ready_time.label }}<br>
+        {{ form.ready_time() }}
+    </p>
+    <p>
+        {{ form.due_time.label }}<br>
+        {{ form.due_time() }}
+    </p>
+    <p>
+        {{ form.service_time.label }}<br>
+        {{ form.service_time() }}
+    </p>
+    <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}
