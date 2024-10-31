@@ -10,7 +10,7 @@
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    var routes = JSON.parse(`{{ routes | tojson(ensure_ascii=False) | safe }}`);
+    var routes = JSON.parse(`{{ routes | tojson | safe }}`);
     console.log(routes);
 
     routes.forEach(function(route, index) {
