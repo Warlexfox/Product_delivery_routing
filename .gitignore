@@ -1,0 +1,10 @@
+# Ignorēt virtuālo vidi
+venv/
+# Ignorēt VS Code iestatījumu failus
+.vscode/
+# Ignorēt kešatmiņas failus
+__pycache__/
+*.pyc
+
+# Ignoring database changes
+instance/database.db
