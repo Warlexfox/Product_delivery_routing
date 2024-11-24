@@ -1,15 +1,35 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, SubmitField, FileField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, SubmitField, FileField, SelectField
+from wtforms.validators import DataRequired, Email, EqualTo
+
+class LoginForm(FlaskForm):
+    email = StringField('Email:', validators=[DataRequired(), Email(message='Invalid email format')])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    submit = SubmitField('Log-in')
+
+class RegisterForm(FlaskForm):
+    email = StringField('Email:', validators=[DataRequired(), Email(message='Invalid email format')])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password:', validators=[
+        DataRequired(), EqualTo('password', message='The passwords must match')
+    ])
+    submit = SubmitField('Register')
 
 class LocationForm(FlaskForm):
-    address = StringField('Adrese', validators=[DataRequired()])
-    demand = FloatField('Pieprasījums', validators=[DataRequired()])
-    ready_time = FloatField('Laika loga sākums', validators=[DataRequired()])
-    due_time = FloatField('Laika loga beigas', validators=[DataRequired()])
-    service_time = FloatField('Apkalpošanas laiks', validators=[DataRequired()])
-    submit = SubmitField('Pievienot lokāciju')
+    country = StringField('Country', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    priority = SelectField('Priority', choices=[
+        ('1', '1 - Low'), ('2', '2 - Mild'), ('3', '3 - Middle'),
+        ('4', '4 - Important'), ('5', '5 - Imperative')
+    ], validators=[DataRequired()])
+    timeframe = StringField('Timeframe', validators=[DataRequired()])
+    submit_location = SubmitField('Save Location')
 
 class UploadLocationsForm(FlaskForm):
-    file = FileField('Izvēlieties JSON failu ar lokācijām', validators=[DataRequired()])
-    submit = SubmitField('Augšupielādēt lokācijas')
+    file = FileField('Choose file', validators=[DataRequired()])
+    submit_upload = SubmitField('Upload')
+
+class RenameRouteForm(FlaskForm):
+    name = StringField('New Route Name', validators=[DataRequired()])
+    submit = SubmitField('Rename')
