@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Rename Route{% endblock %}
+{% block content %}
+<section class="rename-route-section">
+    <div class="breadcrumb">
+        <a href="{{ url_for('view_routes') }}" class="breadcrumb__link">Routes</a> /
+        <a href="{{ url_for('view_route', route_id=route.id) }}" class="breadcrumb__link">{{ route.name }}</a> /
+        <a href="{{ url_for('rename_route', route_id=route.id) }}" class="breadcrumb__link">Rename Route</a>
+    </div>
+    <h1 class="header--primary">Rename Route</h1>
+    <form method="POST" class="form">
+        {{ form.hidden_tag() }}
+        <div class="form__group">
+            {{ form.name.label(class="form__label") }}
+            {{ form.name(class="form__input", placeholder="Enter new route name", required=True) }}
+            {% for error in form.name.errors %}
+                <div class="form__error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {{ form.submit(class="btn--default form__btn-submit") }}
+    </form>
+</section>
+{% endblock %}

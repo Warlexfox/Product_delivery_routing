@@ -1,29 +1,50 @@
 {% extends "base.html" %}
-{% block title %}Pievienot Lokāciju{% endblock %}
+{% block title %}Add Location{% endblock %}
 {% block content %}
-<h1>Pievienot Lokāciju</h1>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.address.label }}<br>
-        {{ form.address(size=32) }}
-    </p>
-    <p>
-        {{ form.demand.label }}<br>
-        {{ form.demand() }}
-    </p>
-    <p>
-        {{ form.ready_time.label }}<br>
-        {{ form.ready_time() }}
-    </p>
-    <p>
-        {{ form.due_time.label }}<br>
-        {{ form.due_time() }}
-    </p>
-    <p>
-        {{ form.service_time.label }}<br>
-        {{ form.service_time() }}
-    </p>
-    <p>{{ form.submit() }}</p>
-</form>
+<section class="add-location-section">
+    <div class="breadcrumb">
+        <a href="{{ url_for('view_routes') }}" class="breadcrumb__link">Routes</a> /
+        <a href="{{ url_for('view_route', route_id=route.id) }}" class="breadcrumb__link">{{ route.name }}</a>
+        /
+        <a href="{{ url_for('add_location', route_id=route.id) }}" class="breadcrumb__link">Add Location</a>
+    </div>
+    <h1 class="header--primary">Add Location</h1>
+
+    <form method="POST" class="form form--add-location">
+        {{ form.hidden_tag() }}
+        <div class="form__group">
+            {{ form.country.label(class="form__label") }}
+            {{ form.country(class="form__input", placeholder="Enter country", required=True) }}
+        </div>
+        <div class="form__group">
+            {{ form.city.label(class="form__label") }}
+            {{ form.city(class="form__input", placeholder="Enter city", required=True) }}
+        </div>
+        <div class="form__group">
+            {{ form.address.label(class="form__label") }}
+            {{ form.address(class="form__input", placeholder="Enter address", required=True) }}
+        </div>
+
+        <div class="form__group">
+            {{ form.priority.label(class="form__label") }}
+            {{ form.priority(class="form__input", required=True) }}
+        </div>
+
+        <div class="form__group">
+            {{ form.timeframe.label(class="form__label") }}
+            {{ form.timeframe(class="form__input", placeholder="Enter timeframe (e.g., 12:00-13:00)", required=True) }}
+        </div>
+
+        {{ form.submit_location(class="btn--default form__btn-submit") }}
+    </form>
+
+    <h2 class="header--secondary">Or add locations from a file</h2>
+    <p class="file-upload-note">*Only JSON or CSV files are accepted</p>
+
+    <form method="POST" enctype="multipart/form-data" class="form form--file-upload">
+        {{ upload_form.hidden_tag() }}
+        {{ upload_form.file(id="file", class="file-upload-btn", required=True) }}
+        {{ upload_form.submit_upload(class="btn--default") }}
+    </form>
+</section>
 {% endblock %}

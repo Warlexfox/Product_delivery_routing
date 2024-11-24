@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Route Information{% endblock %}
+{% block content %}
+<section class="one-route-section">
+    <div class="breadcrumb">
+        <a href="{{ url_for('view_routes') }}" class="breadcrumb__link">Routes</a> /
+        <a href="{{ url_for('view_route', route_id=route.id) }}" class="breadcrumb__link">{{ route.name }}</a>
+    </div>
+    <h1 class="header--primary">
+        View - {{ route.name }}
+        <a href="{{ url_for('rename_route', route_id=route.id) }}" class="btn--small">Rename Route</a>
+    </h1>
+
+    <!-- Action Buttons -->
+    <div class="route-actions">
+        <a href="{{ url_for('add_location', route_id=route.id) }}" class="btn--default">Add location</a>
+        <a href="{{ url_for('view_route_map', route_id=route.id) }}" class="btn--default">View on map</a>
+        <a href="{{ url_for('export_route', route_id=route.id) }}" class="btn--default">Export route</a>
+        <a href="{{ url_for('export_locations', route_id=route.id) }}" class="btn--default">Export locations</a>
+    </div>
+
+    <!-- Locations Table -->
+    <div class="table one-route-table">
+        <!-- Table Headers -->
+        <div class="table__row table__row--header">
+            <div class="table__cell">Nr</div>
+            <div class="table__cell">Address</div>
+            <div class="table__cell">Coordinates</div>
+            <div class="table__cell">Priority</div>
+            <div class="table__cell">Timeframe</div>
+            <div class="table__cell">Delete</div>
+        </div>
+
+        {% for loc in route.locations %}
+        <!-- Data Row -->
+        <div class="table__row">
+            <div class="table__cell">{{ loop.index }}</div>
+            <div class="table__cell">{{ loc.address }}</div>
+            <div class="table__cell">{{ loc.latitude }}, {{ loc.longitude }}</div>
+            <div class="table__cell">{{ loc.priority }}</div>
+            <div class="table__cell">{{ loc.timeframe }}</div>
+            <div class="table__cell">
+                <a href="{{ url_for('delete_location', location_id=loc.id) }}" class="table__link table__link--delete">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

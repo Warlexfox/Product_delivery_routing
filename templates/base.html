@@ -1,28 +1,57 @@
+<!-- templates/base.html -->
 <!DOCTYPE html>
-<html lang="lv">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Pārvaldības panelis{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Route Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('index') }}">Sākums</a>
-        <a href="{{ url_for('add_location') }}">Pievienot lokāciju</a>
-        <a href="{{ url_for('upload_locations') }}">Augšupielādēt lokācijas</a>
-        <a href="{{ url_for('view_locations') }}">Apskatīt lokācijas</a>
-        <a href="{{ url_for('generate_optimized_routes') }}">Optimizēt maršrutus</a>
-    </nav>
-    <hr>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert {{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
+    <div class="main-wrapper">
+        <!-- Side Navigation -->
+        <nav class="main-nav">
+            <input type="checkbox" id="nav-toggle" class="main-nav__toggle" />
+            <label for="nav-toggle" class="main-nav__hamburger">&#9776;</label>
+            <label for="nav-toggle" class="main-nav__close">X</label>
+
+            <ul class="main-nav__list">
+                <li>
+                    <a href="{{ url_for('index') }}" class="main-nav__link {% if request.endpoint == 'index' %}main-nav__link--active{% endif %}">Home</a>
+                </li>
+                {% if current_user %}
+                <li>
+                    <a href="{{ url_for('view_routes') }}" class="main-nav__link {% if 'view_routes' in request.endpoint %}main-nav__link--active{% endif %}">Routes</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}" class="main-nav__link">Log-out</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{ url_for('login') }}" class="main-nav__link {% if request.endpoint == 'login' %}main-nav__link--active{% endif %}">Log-in</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Route Planner. All rights reserved.</p>
+        </footer>
+    </div>
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

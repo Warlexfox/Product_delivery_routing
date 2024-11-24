@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}View Route on Map{% endblock %}
+{% block extra_head %}
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{% endblock %}
+{% block content %}
+<section class="map-section">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb">
+        <a href="{{ url_for('view_routes') }}" class="breadcrumb__link">Routes</a> /
+        <a href="{{ url_for('view_route', route_id=route.id) }}" class="breadcrumb__link">{{ route.name }}</a>
+        /
+        <a href="{{ url_for('view_route_map', route_id=route.id) }}" class="breadcrumb__link">View on Map</a>
+    </div>
+
+    <h1 class="header--primary">Viewing route {{ route.name }} on the map</h1>
+
+    <div class="map-actions">
+        <a href="{{ url_for('view_route', route_id=route.id) }}" class="btn--default">Back</a>
+        <a href="{{ url_for('export_route', route_id=route.id) }}" class="btn--default">Export route</a>
+    </div>
+
+    <div id="map" style="height: 600px;"></div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([56.9496, 24.1052], 8);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var locations = JSON.parse(`{{ locations_json | safe }}`);
+    var latlngs = [];
+
+    locations.forEach(function(location) {
+        var latlng = [location.latitude, location.longitude];
+        latlngs.push(latlng);
+        L.marker(latlng)
+            .addTo(map)
+            .bindPopup(location.address);
+    });
+
+    if (latlngs.length > 1) {
+        var waypoints = latlngs.map(function(latlng) {
+            return latlng[1] + ',' + latlng[0];
+        }).join(';');
+
+        var osrmUrl = 'https://router.project-osrm.org/route/v1/driving/' + waypoints + '?overview=full&geometries=geojson';
+
+        fetch(osrmUrl)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.routes && data.routes.length > 0) {
+                    var routeGeoJSON = data.routes[0].geometry;
+                    var routeLine = L.geoJSON(routeGeoJSON, {
+                        style: {
+                            color: '#007BFF',
+                            weight: 4,
+                            opacity: 0.7
+                        }
+                    }).addTo(map);
+                    map.fitBounds(routeLine.getBounds());
+                } else {
+                    alert('Failed to build route');
+                }
+            })
+            .catch(function(err) {
+                console.error(err);
+                alert('Error receiving route from OSRM');
+            });
+    }
+</script>
+{% endblock %}
