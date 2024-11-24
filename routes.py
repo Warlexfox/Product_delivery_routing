@@ -1,117 +1,268 @@
 from app import app, db
-from flask import render_template, redirect, url_for, request, flash
-from models import Location
-from forms import LocationForm, UploadLocationsForm
-from utils import get_coordinates, solomon_algorithm
+from flask import render_template, redirect, url_for, request, flash, session
+from models import User, Location, Route
+from forms import LoginForm, RegisterForm, LocationForm, UploadLocationsForm, RenameRouteForm
+from utils import get_coordinates
+from datetime import datetime
+from werkzeug.utils import secure_filename
 import json
+import csv
+from io import StringIO
+from functools import wraps
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        user_id = session.get('user_id')
+        if not user_id:
+            flash('Please log in to access this page.', 'error')
+            return redirect(url_for('login'))
+        user = User.query.get(user_id)
+        if not user:
+            session.clear()
+            flash('Session expired. Please log in again.', 'error')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.context_processor
+def inject_current_user():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(user_id)
+        if user:
+            return {'current_user': user}
+    return {'current_user': None}
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/add_location', methods=['GET', 'POST'])
-def add_location():
-    form = LocationForm()
-    if form.validate_on_submit():
-        address = form.address.data
-        latitude, longitude = get_coordinates(address)
-        if latitude is not None and longitude is not None:
-            location = Location(
-                address=address,
-                latitude=latitude,
-                longitude=longitude,
-                demand=form.demand.data,
-                ready_time=form.ready_time.data,
-                due_time=form.due_time.data,
-                service_time=form.service_time.data
-            )
-            db.session.add(location)
-            db.session.commit()
-            flash('Lokācija veiksmīgi pievienota.', 'success')
-            return redirect(url_for('view_locations'))
-        else:
-            flash('Neizdevās iegūt koordinātes adresei.', 'error')
-    return render_template('add_location.html', form=form)
-
-@app.route('/upload_locations', methods=['GET', 'POST'])
-def upload_locations():
-    form = UploadLocationsForm()
-    if form.validate_on_submit():
-        file = form.file.data
-        if file:
-            try:
-                file_content = file.read()
-                if isinstance(file_content, bytes):
-                    file_content = file_content.decode('utf-8-sig')
-                file_content = file_content.strip()
-                if not file_content:
-                    flash('Fails ir tukšs.', 'error')
-                    return redirect(request.url)
-                data = json.loads(file_content)
-                if not isinstance(data, list):
-                    flash('Nekorekts datu formāts: tika gaidīts lokāciju saraksts.', 'error')
-                    return redirect(request.url)
-                for item in data:
-                    address = item.get('address')
-                    demand = item.get('demand', 0)
-                    ready_time = item.get('ready_time', 0)
-                    due_time = item.get('due_time', 1440)
-                    service_time = item.get('service_time', 0)
-                    if not address:
-                        flash('Nekorekti dati failā: nav norādīta adrese.', 'error')
-                        continue
-                    latitude, longitude = get_coordinates(address)
-                    if latitude is not None and longitude is not None:
-                        location = Location(
-                            address=address,
-                            latitude=latitude,
-                            longitude=longitude,
-                            demand=demand,
-                            ready_time=ready_time,
-                            due_time=due_time,
-                            service_time=service_time
-                        )
-                        db.session.add(location)
-                    else:
-                        flash(f"Neizdevās iegūt koordinātes adresei: {address}.", 'error')
-                db.session.commit()
-                flash('Lokācijas veiksmīgi augšupielādētas.', 'success')
-                return redirect(url_for('view_locations'))
-            except json.JSONDecodeError as e:
-                flash(f'Kļūda, augšupielādējot lokācijas: nekorekts JSON. {e}', 'error')
-                return redirect(request.url)
-            except Exception as e:
-                flash(f'Kļūda, augšupielādējot lokācijas: {e}', 'error')
-                return redirect(request.url)
-        else:
-            flash('Fails nav izvēlēts.', 'error')
-    return render_template('upload_locations.html', form=form)
-
-@app.route('/view_locations')
-def view_locations():
-    locations = Location.query.all()
-    return render_template('view_locations.html', locations=locations)
-
-@app.route('/generate_optimized_routes', methods=['GET'])
-def generate_optimized_routes():
-    locations = Location.query.all()
-    if not locations:
-        flash('Nav pieejamu lokāciju optimizācijai.', 'error')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if 'user_id' in session:
         return redirect(url_for('index'))
-    vehicle_capacity = 100
-    optimized_routes = solomon_algorithm(locations, vehicle_capacity)
-    if not optimized_routes:
-        flash('Neizdevās ģenerēt maršrutus ar pašreizējiem datiem.', 'error')
-        return redirect(url_for('view_locations'))
-    routes_data = []
-    for idx, route in enumerate(optimized_routes):
-        print(f"Maršruts {idx+1}: {[loc.address for loc in route]}")
-        route_data = []
-        for location in route:
-            route_data.append({
-                'latitude': location.latitude,
-                'longitude': location.longitude,
-                'address': location.address
-            })
-        routes_data.append(route_data)
-    return render_template('optimized_routes.html', routes=routes_data)
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if not user:
+            flash('This email is not registered. Please register', 'error')
+            return render_template('login.html', form=form)
+        if user.check_password(form.password.data):
+            session['user_id'] = user.id
+            flash('Successful login', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Wrong password', 'error')
+            return render_template('login.html', form=form)
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You are logged out', 'success')
+    return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if 'user_id' in session:
+        return redirect(url_for('index'))
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if User.query.filter_by(email=form.email.data).first():
+            flash('This email has already been registered', 'error')
+            return render_template('register.html', form=form)
+        user = User(email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Registration successful. Please login', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
+@app.route('/view_routes')
+@login_required
+def view_routes():
+    routes = Route.query.filter_by(user_id=session['user_id']).all()
+    return render_template('view-routes.html', routes=routes)
+
+@app.route('/create_route')
+@login_required
+def create_route():
+    user_id = session['user_id']
+    route_count = Route.query.filter_by(user_id=user_id).count()
+    route_name = f'Route #{route_count + 1}'
+    route = Route(
+        name=route_name,
+        user_id=user_id
+    )
+    db.session.add(route)
+    db.session.commit()
+    flash('A new route has been created', 'success')
+    return redirect(url_for('view_routes'))
+
+@app.route('/delete_route/<int:route_id>')
+@login_required
+def delete_route(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    db.session.delete(route)
+    db.session.commit()
+    flash('The route has been deleted', 'success')
+    return redirect(url_for('view_routes'))
+
+@app.route('/view_route/<int:route_id>')
+@login_required
+def view_route(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    return render_template('view-one-route.html', route=route)
+
+@app.route('/rename_route/<int:route_id>', methods=['GET', 'POST'])
+@login_required
+def rename_route(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    form = RenameRouteForm()
+    if form.validate_on_submit():
+        route.name = form.name.data
+        db.session.commit()
+        flash('The route name has been successfully changed', 'success')
+        return redirect(url_for('view_route', route_id=route_id))
+    elif request.method == 'GET':
+        form.name.data = route.name
+    return render_template('rename-route.html', route=route, form=form)
+
+@app.route('/add_location/<int:route_id>', methods=['GET', 'POST'])
+@login_required
+def add_location(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    form = LocationForm()
+    upload_form = UploadLocationsForm()
+
+    if form.submit_location.data and form.validate_on_submit():
+        country = form.country.data
+        city = form.city.data
+        address = form.address.data
+        priority = form.priority.data
+        timeframe = form.timeframe.data
+
+        latitude, longitude = get_coordinates(country, city, address)
+        if latitude is None or longitude is None:
+            return redirect(url_for('add_location', route_id=route_id))
+        full_address = f"{address}, {city}, {country}"
+        location = Location(
+            address=full_address,
+            latitude=latitude,
+            longitude=longitude,
+            priority=int(priority),
+            timeframe=timeframe,
+            route_id=route_id
+        )
+        db.session.add(location)
+        db.session.commit()
+        flash('Location added successfully', 'success')
+        return redirect(url_for('view_route', route_id=route_id))
+    elif upload_form.submit_upload.data and upload_form.validate_on_submit():
+        file = upload_form.file.data
+        filename = secure_filename(file.filename)
+        if filename.endswith('.json') or filename.endswith('.csv'):
+            try:
+                if filename.endswith('.json'):
+                    data = json.load(file)
+                else:
+                    data = []
+                    csv_reader = csv.DictReader(StringIO(file.read().decode('utf-8')))
+                    for row in csv_reader:
+                        data.append(row)
+                for item in data:
+                    country = item.get('country', '')
+                    city = item.get('city', '')
+                    address = item.get('address')
+                    priority = item.get('priority', '1')
+                    timeframe = item.get('timeframe', '')
+                    latitude, longitude = get_coordinates(country, city, address)
+                    if latitude is None or longitude is None:
+                        continue
+                    full_address = f"{address}, {city}, {country}"
+                    location = Location(
+                        address=full_address,
+                        latitude=latitude,
+                        longitude=longitude,
+                        priority=int(priority),
+                        timeframe=timeframe,
+                        route_id=route_id
+                    )
+                    db.session.add(location)
+                db.session.commit()
+                flash('Locations loaded successfully', 'success')
+            except Exception as e:
+                flash(f'Error processing file: {e}', 'error')
+        else:
+            flash('Invalid file format. Only JSON or CSV files are accepted', 'error')
+        return redirect(url_for('view_route', route_id=route_id))
+    return render_template('add-location.html', route=route, form=form, upload_form=upload_form)
+
+@app.route('/delete_location/<int:location_id>')
+@login_required
+def delete_location(location_id):
+    location = Location.query.get_or_404(location_id)
+    if location.route.user_id != session['user_id']:
+        flash('You do not have permission to delete this location', 'error')
+        return redirect(url_for('view_routes'))
+    route_id = location.route_id
+    db.session.delete(location)
+    db.session.commit()
+    flash('Location has been removed', 'success')
+    return redirect(url_for('view_route', route_id=route_id))
+
+@app.route('/view_route_map/<int:route_id>')
+@login_required
+def view_route_map(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    locations = route.locations
+    locations_data = [{
+        'latitude': loc.latitude,
+        'longitude': loc.longitude,
+        'address': loc.address
+    } for loc in locations]
+    locations_json = json.dumps(locations_data, ensure_ascii=False)
+    return render_template('view-route-map.html', route=route, locations_json=locations_json)
+
+@app.route('/export_route/<int:route_id>')
+@login_required
+def export_route(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    locations = route.locations
+    data = [{
+        'address': loc.address,
+        'coordinates': f'{loc.latitude}, {loc.longitude}',
+        'priority': loc.priority,
+        'timeframe': loc.timeframe
+    } for loc in locations]
+    response = app.response_class(
+        response=json.dumps(data, ensure_ascii=False),
+        mimetype='application/json',
+        headers={'Content-Disposition': f'attachment;filename=route_{route_id}.json'}
+    )
+    return response
+
+@app.route('/export_locations/<int:route_id>')
+@login_required
+def export_locations(route_id):
+    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    locations = route.locations
+    si = StringIO()
+    writer = csv.writer(si)
+    writer.writerow(['address', 'coordinates', 'priority', 'timeframe'])
+    for loc in locations:
+        writer.writerow([
+            loc.address,
+            f'{loc.latitude}, {loc.longitude}',
+            loc.priority,
+            loc.timeframe
+        ])
+    output = si.getvalue()
+    response = app.response_class(
+        response=output,
+        mimetype='text/csv',
+        headers={'Content-Disposition': f'attachment;filename=locations_{route_id}.csv'}
+    )
+    return response
