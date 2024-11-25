@@ -1,37 +1,50 @@
-{% extends "base.html" %}
-{% block title %}Routes{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Routes{% endblock %} {% block content
+%}
 <section class="routes-section">
-    <h1 class="header--primary">Routes</h1>
-    <a href="{{ url_for('create_route') }}" class="btn--default">Create New Route</a>
-    <div class="table routes-table">
-        <!-- Header Row -->
-        <div class="table__row table__row--header">
-            <div class="table__cell">Nr</div>
-            <div class="table__cell">Name</div>
-            <div class="table__cell">Locations</div>
-            <div class="table__cell">Creation Date</div>
-            <div class="table__cell">Last Update</div>
-            <div class="table__cell">View details</div>
-            <div class="table__cell">Delete</div>
-        </div>
-
-        {% for route in routes %}
-        <!-- Data Row -->
-        <div class="table__row">
-            <div class="table__cell">{{ loop.index }}</div>
-            <div class="table__cell">{{ route.name }}</div>
-            <div class="table__cell">{{ route.locations|length }}</div>
-            <div class="table__cell">{{ route.creation_date.strftime('%d.%m.%Y') }}</div>
-            <div class="table__cell">{{ route.last_update.strftime('%d.%m.%Y') }}</div>
-            <div class="table__cell">
-                <a href="{{ url_for('view_route', route_id=route.id) }}" class="table__link">View</a>
-            </div>
-            <div class="table__cell">
-                <a href="{{ url_for('delete_route', route_id=route.id) }}" class="table__link table__link--delete">Delete</a>
-            </div>
-        </div>
-        {% endfor %}
+  <h1 class="header--primary">Routes</h1>
+  <a href="{{ url_for('create_route') }}" class="btn--default mb-2"
+    >Create New Route</a
+  >
+  <div class="table routes-table">
+    <!-- Header Row -->
+    <div class="table__row table__row--header">
+      <div class="table__cell">Nr</div>
+      <div class="table__cell">Name</div>
+      <div class="table__cell">Locations</div>
+      <div class="table__cell">Creation Date</div>
+      <div class="table__cell">Last Update</div>
+      <div class="table__cell">View details</div>
+      <div class="table__cell">Delete</div>
     </div>
+
+    {% for route in routes %}
+    <!-- Data Row -->
+    <div class="table__row">
+      <div class="table__cell">{{ loop.index }}</div>
+      <div class="table__cell">{{ route.name }}</div>
+      <div class="table__cell">{{ route.locations|length }}</div>
+      <div class="table__cell">
+        {{ route.creation_date.strftime('%d.%m.%Y') }}
+      </div>
+      <div class="table__cell">
+        {{ route.last_update.strftime('%d.%m.%Y') }}
+      </div>
+      <div class="table__cell">
+        <a
+          href="{{ url_for('view_route', route_id=route.id) }}"
+          class="table__link"
+          >View</a
+        >
+      </div>
+      <div class="table__cell">
+        <a
+          href="{{ url_for('delete_route', route_id=route.id) }}"
+          class="table__link table__link--delete"
+          >Delete</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </section>
 {% endblock %}

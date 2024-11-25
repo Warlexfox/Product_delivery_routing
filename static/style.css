@@ -1,439 +1,474 @@
 /* //////////////////////// */
 /* VARIABLES */
 :root {
-    --colour-main: #1f1f1f;
-    --colour-secondary: #eaeaea;
-    --gray--1: #f1f1f1;
-    --gray--2: #787878;
-    --gray--3: #ccc;
-  }
-  
-  /* ////////////////////////////////// */
-  /* GENERAL */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-  }
-  
-  html {
-    font-size: 62.5%;
-    box-sizing: border-box;
-  }
-  
-  body {
-    background-color: var(--colour-gray--2);
-    font-family: Arial, sans-serif;
-    font-size: 1.8rem;
-  }
-  
+  --colour-main: #1f1f1f;
+  --colour-secondary: #eaeaea;
+  --gray--1: #f1f1f1;
+  --gray--2: #787878;
+  --gray--3: #ccc;
+}
+
+/* ////////////////////////////////// */
+/* GENERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--colour-gray--2);
+  font-family: Arial, sans-serif;
+  font-size: 1.8rem;
+}
+
+.main-wrapper {
+  position: relative;
+  max-width: 200rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+  min-height: 100vh;
+}
+
+/* Hide arrows in number input fields for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in number input fields for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+/* //////////////////// */
+/* REUSABLE COMPONENTS */
+
+.header--primary {
+  font-size: 3.2rem;
+  padding-bottom: 3.2rem;
+}
+
+.header--secondary {
+  font-size: 2.4rem;
+  margin-bottom: 1.2rem;
+  color: var(--colour-main);
+}
+
+.mb-2 {
+  margin-bottom: 1.6rem;
+}
+
+.btn--default {
+  display: inline-block;
+  width: max-content;
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: var(--colour-secondary);
+  background-color: var(--colour-main);
+  padding: 1.2rem;
+  border: 1px solid var(--colour-main);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  /* this line fixes a little bit the bluryness of a border when clicking on the button and it is downscaling a little */
+  backface-visibility: hidden;
+}
+.btn--default:hover {
+  background-color: transparent;
+  color: var(--colour-main);
+}
+.btn--default:active {
+  scale: 0.98;
+}
+
+.btn--default:focus {
+  outline: 4px solid var(--gray--2);
+  outline-offset: -4px;
+}
+
+/* BREADCRUMBS */
+.breadcrumb {
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.breadcrumb__link {
+  color: var(--colour-main);
+  text-decoration: none;
+}
+.breadcrumb__link:hover {
+  text-decoration: underline;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--gray--1);
+  padding: 3.2rem;
+  border-radius: 0.8rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form__group {
+  margin-bottom: 2.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__label {
+  font-size: 1.6rem;
+  color: #333;
+  margin-bottom: 0.8rem;
+}
+
+.form__input {
+  font-size: 1.6rem;
+  padding: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+  color: #333;
+  background-color: #fff;
+  width: 100%;
+}
+
+.form__input:focus {
+  outline: none;
+  border-color: var(--colour-main);
+  box-shadow: 0 0 4px rgba(31, 31, 31, 0.4);
+}
+
+.form__btn-submit {
+  width: 100%;
+}
+
+.form__text--smaller {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.form__text--link {
+  color: var(--colour-main);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.form__text--link:hover {
+  text-decoration: underline;
+}
+
+/* TABLE */
+.table {
+  display: grid;
+  /* Column count MUST be set individually for each table */
+  grid-template-columns: repeat(autofit, minmax(12rem, 1fr));
+}
+
+/* Each row inherits column widths from .table */
+.table__row {
+  /* Use contents to let cells adopt the table grid layout */
+  display: contents;
+}
+
+/* Must have selector like this because of dispaly:contents above */
+.table__row--header .table__cell {
+  background-color: var(--colour-main);
+  color: var(--colour-secondary);
+  font-weight: bold;
+}
+
+.table__row:nth-of-type(odd):not(.table__row--header) .table__cell {
+  background-color: var(--gray--2);
+}
+
+.table__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-size: 1.6rem;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.table__input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.table__link,
+.table__link--delete {
+  color: var(--colour-main);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.table__link:hover {
+  text-decoration: underline;
+}
+
+.table__link--delete:hover {
+  color: #c9302c;
+}
+
+.table__link--save:hover {
+  color: #449d44;
+}
+
+/* ///////////////////////////////// */
+/* NAVIGATION */
+.main-nav {
+  background-color: var(--colour-main);
+  padding: 4.8rem;
+  position: relative;
+}
+
+.main-nav__hamburger,
+.main-nav__close {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 2.4rem;
+  color: var(--colour-secondary);
+  cursor: pointer;
+}
+
+.main-nav__list {
+  padding-top: 8.1rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.main-nav__link {
+  display: inline-block;
+  padding: 1rem 2rem;
+  min-width: 10rem;
+  color: var(--colour-secondary);
+  font-size: 1.6rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+.main-nav__link--active {
+  border-bottom: 1px solid var(--colour-secondary);
+}
+
+.main-nav__link:hover {
+  box-shadow: 0 0 0 2px var(--colour-secondary);
+}
+.main-nav__link:active {
+  scale: 0.98;
+}
+
+.main-nav__toggle {
+  display: none;
+}
+
+.main-nav__hamburger {
+  display: none;
+  font-size: 2.4rem;
+  color: var(--colour-secondary);
+  cursor: pointer;
+}
+
+.main-nav__close {
+  display: none;
+  font-size: 2.4rem;
+  color: var(--colour-secondary);
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* ////////////////////////// */
+/* MAIN CONTENT CONTAINER */
+.main-content {
+  background-color: var(--colour-secondary);
+  color: var(--colour-main);
+  padding: 4rem;
+  padding-top: 8rem;
+}
+
+/* ///////////////////// */
+/* STYLING FOR SPECIFIC PAGES */
+
+/* lOGIN PAGE */
+.login-section {
+  max-width: 45rem;
+}
+
+/* REGISTRATION PAGE */
+.register-section {
+  max-width: 45rem;
+}
+
+/* VIEW ROUTE PAGE */
+.routes-section {
+  max-width: 100rem;
+}
+.routes-table {
+  grid-template-columns: auto 1fr 3fr 2fr 2fr 2fr 2fr;
+}
+
+/* VIEW ONE ROUTE PAGE */
+.one-route-section {
+  max-width: 100rem;
+}
+.route-actions {
+  display: flex;
+  gap: 1.6rem;
+  margin-bottom: 2.8rem;
+}
+
+.one-route-table {
+  grid-template-columns: 1fr 2fr 3fr 1fr 2fr 2fr 1fr;
+}
+
+/* ADD LOCATION PAGE */
+.add-location-section {
+  max-width: 50rem;
+}
+
+.form--add-location {
+  margin-bottom: 4.4rem;
+}
+
+.file-upload-note {
+  font-size: 1.4rem;
+  margin-bottom: 2.4rem;
+  color: var(--colour-main);
+}
+
+.form--file-upload {
+  max-width: 45rem;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.file-upload-btn {
+  font-size: 1.6rem;
+  color: var(--colour-main);
+  padding: 1rem 2rem;
+  background-color: var(--gray--3);
+  border: 1px solid var(--colour-main);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.file-upload-btn:hover {
+  background-color: transparent;
+}
+
+/* VIEW ROUTE ON MAP */
+
+.map-actions {
+  display: flex;
+  gap: 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.map-placeholder {
+  width: 35rem;
+  height: 35rem;
+  background-color: var(--gray--2);
+  border-radius: 2px;
+}
+
+/* DRIVERS PAGE */
+
+.drivers-table {
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr;
+}
+
+/* /////////////// */
+/* FOOTER */
+.footer {
+  height: max-content;
+  grid-column: span 2;
+  text-align: center;
+  font-size: 1.4rem;
+  padding: 2rem;
+  background-color: var(--colour-main);
+  color: var(--colour-secondary);
+}
+
+/* //////////////////////////////// */
+/* MEDIA QUERIES FOR RESPONSIVITY */
+
+/* NAVIGATION RESPONSIVITY */
+@media (max-width: 768px) {
   .main-wrapper {
-    position: relative;
-    max-width: 200rem;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr;
-    min-height: 100vh;
-  }
-  
-  /* //////////////////// */
-  /* REUSABLE COMPONENTS */
-  
-  .header--primary {
-    font-size: 3.2rem;
-    padding-bottom: 3.2rem;
-  }
-  
-  .header--secondary {
-    font-size: 2.4rem;
-    margin-bottom: 1.2rem;
-    color: var(--colour-main);
-  }
-  
-  .btn--default {
-    width: max-content;
-    font-size: 1.6rem;
-    text-decoration: none;
-    color: var(--colour-secondary);
-    background-color: var(--colour-main);
-    padding: 1.2rem;
-    border: 1px solid var(--colour-main);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    /* this line fixes a little bit the bluryness of a border when clicking on the button and it is downscaling a little */
-    backface-visibility: hidden;
-  }
-  .btn--default:hover {
-    background-color: transparent;
-    color: var(--colour-main);
-  }
-  .btn--default:active {
-    scale: 0.98;
-  }
-  
-  /* BREADCRUMBS */
-  .breadcrumb {
-    font-size: 1.4rem;
-    margin-bottom: 0.4rem;
-  }
-  
-  .breadcrumb__link {
-    color: var(--colour-main);
-    text-decoration: none;
-  }
-  .breadcrumb__link:hover {
-    text-decoration: underline;
-  }
-  .mb-2{
-    margin-bottom: 1.6rem;
-  }
-  /* FORM */
-  .form {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--gray--1);
-    padding: 3.2rem;
-    border-radius: 0.8rem;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form__group {
-    margin-bottom: 2.4rem;
     display: flex;
     flex-direction: column;
   }
-  
-  .form__label {
-    font-size: 1.6rem;
-    color: #333;
-    margin-bottom: 0.8rem;
+  .main-content {
+    flex-grow: 1;
   }
-  
-  .form__input {
-    font-size: 1.6rem;
-    padding: 1.2rem;
-    border: 1px solid #ccc;
-    border-radius: 0.4rem;
-    color: #333;
-    background-color: #fff;
-    width: 100%;
-  }
-  
-  .form__input:focus {
-    outline: none;
-    border-color: var(--colour-main);
-    box-shadow: 0 0 4px rgba(31, 31, 31, 0.4);
-  }
-  
-  .form__btn-submit {
-    width: 100%;
-  }
-  
-  .form__text--smaller {
-    font-size: 1.4rem;
-    text-align: center;
-    margin-top: 2rem;
-  }
-  
-  .form__text--link {
-    color: var(--colour-main);
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .form__text--link:hover {
-    text-decoration: underline;
-  }
-  
-  /* TABLE */
-  .table {
-    display: grid;
-    /* Column count MUST be set individually for each table */
-    grid-template-columns: repeat(autofit, minmax(12rem, 1fr));
-  }
-  
-  /* Each row inherits column widths from .table */
-  .table__row {
-    /* Use contents to let cells adopt the table grid layout */
-    display: contents;
-  }
-  
-  /* Must have selector like this because of dispaly:contents above */
-  .table__row--header .table__cell {
-    background-color: var(--colour-main);
-    color: var(--colour-secondary);
-    font-weight: bold;
-  }
-  
-  .table__row:nth-of-type(odd):not(.table__row--header) .table__cell {
-    background-color: var(--gray--2);
-  }
-  
-  .table__cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    font-size: 1.6rem;
-    text-align: center;
-    border: 1px solid #ccc;
-  }
-  
-  .table__link,
-  .table__link--delete {
-    color: var(--colour-main);
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .table__link:hover {
-    text-decoration: underline;
-  }
-  
-  .table__link--delete:hover {
-    color: #c9302c;
-  }
-  
-  /* ///////////////////////////////// */
-  /* NAVIGATION */
-  .main-nav {
-    background-color: var(--colour-main);
-    padding: 4.8rem;
-    position: relative;
-  }
-  
+
   .main-nav__hamburger,
   .main-nav__close {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 2.4rem;
-    color: var(--colour-secondary);
-    cursor: pointer;
+    left: 4.2rem;
+    top: 2.2rem;
+    font-size: 3.2rem;
+    z-index: 11;
   }
-  
-  .main-nav__list {
-    padding-top: 8.1rem;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2.4rem;
+
+  .main-nav {
+    padding: 4.4rem;
   }
-  
-  .main-nav__link {
-    display: inline-block;
-    padding: 1rem 2rem;
-    min-width: 10rem;
-    color: var(--colour-secondary);
-    font-size: 1.6rem;
-    text-decoration: none;
-    text-align: center;
-  }
-  
-  .main-nav__link--active {
-    border-bottom: 1px solid var(--colour-secondary);
-  }
-  
-  .main-nav__link:hover {
-    box-shadow: 0 0 0 2px var(--colour-secondary);
-  }
-  .main-nav__link:active {
-    scale: 0.98;
-  }
-  
-  .main-nav__toggle {
-    display: none;
-  }
-  
   .main-nav__hamburger {
-    display: none;
-    font-size: 2.4rem;
-    color: var(--colour-secondary);
-    cursor: pointer;
+    display: block;
   }
-  
+
+  .main-nav__list,
   .main-nav__close {
     display: none;
-    font-size: 2.4rem;
-    color: var(--colour-secondary);
-    cursor: pointer;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
   }
-  
-  /* ////////////////////////// */
-  /* MAIN CONTENT CONTAINER */
-  .main-content {
-    background-color: var(--colour-secondary);
-    color: var(--colour-main);
-    padding: 4rem;
-    padding-top: 8rem;
+
+  #nav-toggle:checked ~ .main-nav__close {
+    display: block;
   }
-  
-  /* ///////////////////// */
-  /* STYLING FOR SPECIFIC PAGES */
-  
-  /* lOGIN PAGE */
-  .login-section {
-    max-width: 45rem;
+  #nav-toggle:checked ~ .main-nav__hamburger {
+    display: none;
   }
-  
-  /* REGISTRATION PAGE */
-  .register-section {
-    max-width: 45rem;
-  }
-  
-  /* VIEW ROUTE PAGE */
-  .routes-section {
-    max-width: 100rem;
-  }
-  .routes-table {
-    grid-template-columns: auto 1fr 3fr 2fr 2fr 2fr 2fr;
-  }
-  
-  /* VIEW ONE ROUTE PAGE */
-  .one-route-section {
-    max-width: 100rem;
-  }
-  .route-actions {
+
+  #nav-toggle:checked ~ .main-nav__list {
     display: flex;
-    gap: 1.6rem;
-    margin-bottom: 2.8rem;
-  }
-  
-  .one-route-table {
-    grid-template-columns: 1fr 2fr 3fr 1fr 2fr 1fr;
-  }
-  
-  /* ADD LOCATION PAGE */
-  .add-location-section {
-    max-width: 50rem;
-  }
-  
-  .form--add-location {
-    margin-bottom: 4.4rem;
-  }
-  
-  .file-upload-note {
-    font-size: 1.4rem;
-    margin-bottom: 2.4rem;
-    color: var(--colour-main);
-  }
-  
-  .form--file-upload {
-    max-width: 45rem;
-    align-items: center;
-    gap: 1.6rem;
-  }
-  
-  .file-upload-btn {
-    font-size: 1.6rem;
-    color: var(--colour-main);
-    padding: 1rem 2rem;
-    background-color: var(--gray--3);
-    border: 1px solid var(--colour-main);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .file-upload-btn:hover {
-    background-color: transparent;
-  }
-  
-  /* VIEW ROUTE ON MAP */
-  
-  .map-actions {
-    display: flex;
-    gap: 1.6rem;
-    margin-bottom: 2rem;
-  }
-  
-  .map-placeholder {
-    width: 35rem;
-    height: 35rem;
-    background-color: var(--gray--2);
-    border-radius: 2px;
-  }
-  
-  /* /////////////// */
-  /* FOOTER */
-  .footer {
-    height: max-content;
-    grid-column: span 2;
-    text-align: center;
-    font-size: 1.4rem;
-    padding: 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* to shift a little bit up the mobile navigation */
+    padding-bottom: 20rem;
     background-color: var(--colour-main);
-    color: var(--colour-secondary);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
   }
-  
-  /* //////////////////////////////// */
-  /* MEDIA QUERIES FOR RESPONSIVITY */
-  
-  /* NAVIGATION RESPONSIVITY */
-  @media (max-width: 768px) {
-    .main-wrapper {
-      display: flex;
-      flex-direction: column;
-    }
-    .main-content {
-      flex-grow: 1;
-    }
-  
-    .main-nav__hamburger,
-    .main-nav__close {
-      left: 4.2rem;
-      top: 2.2rem;
-      font-size: 3.2rem;
-      z-index: 11;
-    }
-  
-    .main-nav {
-      padding: 4.4rem;
-    }
-    .main-nav__hamburger {
-      display: block;
-    }
-  
-    .main-nav__list,
-    .main-nav__close {
-      display: none;
-    }
-  
-    #nav-toggle:checked ~ .main-nav__close {
-      display: block;
-    }
-    #nav-toggle:checked ~ .main-nav__hamburger {
-      display: none;
-    }
-  
-    #nav-toggle:checked ~ .main-nav__list {
-      display: flex;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      /* to shift a little bit up the mobile navigation */
-      padding-bottom: 20rem;
-      background-color: var(--colour-main);
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-    #nav-toggle:checked ~ .main-nav__list .main-nav__link {
-      font-size: 2.4rem;
-    }
-  
-    /* Login and registration page */
-    .login-section,
-    .register-section {
-      margin: 0 auto;
-    }
+  #nav-toggle:checked ~ .main-nav__list .main-nav__link {
+    font-size: 2.4rem;
   }
-  
+
+  /* Login and registration page */
+  .login-section,
+  .register-section {
+    margin: 0 auto;
+  }
+}

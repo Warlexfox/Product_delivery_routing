@@ -266,3 +266,9 @@ def export_locations(route_id):
         headers={'Content-Disposition': f'attachment;filename=locations_{route_id}.csv'}
     )
     return response
+
+@app.route('/view_drivers')
+@login_required
+def view_drivers():
+    routes = Route.query.filter_by(user_id=session['user_id']).all()
+    return render_template('view-drivers.html', routes=routes)
