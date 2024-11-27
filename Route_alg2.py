@@ -1,3 +1,8 @@
+# Primitīvs maršruta organizētāja algoritms, strādā pats un spēj izveidot loģisku sarakstu balstoties uz laikiem un attālumiem
+# Nespēj tikt galā ja laiki ir pārāk tālu viens no otra, piemēram, pirmais punkts ir 09-10 un otrais ir 10-11 un abas lokācijas ļoti tuvas un tiek uz otru punktu pirms 10:00 tad operācija beidzās.
+# Pagaidām strādā tikai ar vienu šoferi
+# Izmantoju google maps api, debug printi dod papildinformāciju par braukšanas laiku
+
 from datetime import datetime
 from datetime import timedelta
 from typing import List, Tuple
