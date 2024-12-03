@@ -1,5 +1,4 @@
 # Primitīvs maršruta organizētāja algoritms, strādā pats un spēj izveidot loģisku sarakstu balstoties uz laikiem un attālumiem
-# Nespēj tikt galā ja laiki ir pārāk tālu viens no otra, piemēram, pirmais punkts ir 09-10 un otrais ir 10-11 un abas lokācijas ļoti tuvas un tiek uz otru punktu pirms 10:00 tad operācija beidzās.
 # Pagaidām strādā tikai ar vienu šoferi
 # Izmantoju google maps api, debug printi dod papildinformāciju par braukšanas laiku
 
@@ -44,21 +43,15 @@ class RouteOptimizer:
 
     
     def optimize_route(self, deliveries: List[Delivery]) -> List[Delivery]:
-        # Kārto piegādes pēc timeframe_start un prioritātes
-        deliveries.sort(key=lambda x: (x.timeframe_start, -x.priority))
+        # Sort deliveries primarily by priority (highest first) and secondarily by their start time
+        deliveries.sort(key=lambda x: (-x.priority, x.timeframe_start))
         optimized_route = []
         current_location = self.depot_address
 
-        # Definē darba stundas (e.g., 08:00 to 18:00)
-        working_start_time = datetime.strptime("08:00", "%H:%M").time()
-        working_end_time = datetime.strptime("18:00", "%H:%M").time()
         stop_time = timedelta(minutes=15)  # Assume 15 minutes per delivery
 
-        # Iestata sākotnējo current_time uz vēlāko no darba sākuma laika, vai pirmo piegādes sākuma laika
-        current_time = max(
-            datetime.combine(deliveries[0].timeframe_start.date(), working_start_time),
-            deliveries[0].timeframe_start
-        )
+        # Start time is the earliest of the first delivery's timeframe start or the workday start
+        current_time = max(deliveries[0].timeframe_start, datetime.now())
 
         while deliveries:
             best_next_delivery = None
@@ -66,46 +59,32 @@ class RouteOptimizer:
             best_index = -1
 
             for i, delivery in enumerate(deliveries):
-                # Aprēķina brauciena attālumu un laiku
+                # Calculate travel distance and time
                 travel_distance = self.calculate_distance(current_location, delivery.full_address)
                 travel_time = timedelta(seconds=(travel_distance / 50000) * 3600)  # Speed: 50km/h
                 arrival_time = current_time + travel_time
 
-                # Debug logs, seko līdzi laikiem
+                # Debug logs
                 print(f"Checking delivery: {delivery.full_address}")
                 print(f"Arrival Time: {arrival_time.strftime('%H:%M')}, Timeframe: {delivery.timeframe_start.strftime('%H:%M')} - {delivery.timeframe_end.strftime('%H:%M')}")
                 print(f"Travel Time: {travel_time}, Stop Time: {stop_time}")
 
-                # Pārbauda ka piegādāšanas laiks ir darba laikā
-                if arrival_time.time() > working_end_time:
-                    print(f"Arrival exceeds working hours for {delivery.full_address}.")
-                    continue  # Skip if beyond working hours
-
-                # Pārbauda vai piegādi var nogādāt darba laikā
-                if delivery.timeframe_start <= arrival_time <= delivery.timeframe_end:
-                    # Prioritāte tuvākām vietām
-                    if travel_distance < best_distance:
-                        best_distance = travel_distance
-                        best_next_delivery = delivery
-                        best_index = i
+                # Prioritize deliveries based on the smallest travel distance and the least deviation from the target time window
+                if travel_distance < best_distance:
+                    best_distance = travel_distance
+                    best_next_delivery = delivery
+                    best_index = i
 
             if best_next_delivery:
-                # Update route, vietu, and laiku 
+                # Add delivery to route
                 optimized_route.append(best_next_delivery)
                 current_location = best_next_delivery.full_address
                 current_time += travel_time + stop_time  # Add travel time and stop time
 
-                # Izdzēš veikto piegādi
+                # Remove processed delivery from list
                 deliveries.pop(best_index)
-
-                # Pārbauda vai pašreizējais laiks pārsniedz darba laiku
-                if current_time.time() > working_end_time:
-                    print("End of working day. Returning to depot.")
-                    current_time = datetime.combine(current_time.date() + timedelta(days=1), working_start_time)
-                    current_location = self.depot_address  # Reset to depot
             else:
-                # Ja nevar atrast valid piegādi, iziet to loop
-                print("No valid next delivery found within time windows.")
+                print("No valid next delivery found.")
                 break
 
         return optimized_route
@@ -124,7 +103,9 @@ def main():
     deliveries = [
         Delivery("Latvia", "Riga", "Brīvības iela 100", 1, "09:00-10:00"),
         Delivery("Latvia", "Riga", "Tērbatas iela 50", 1, "09:00-10:00"),
-        Delivery("Latvia", "Riga", "Krišjāņa Valdemāra iela 75", 1, "09:00-10:00")
+        Delivery("Latvia", "Riga", "Krišjāņa Valdemāra iela 75", 1, "09:00-10:00"),
+        Delivery("Latvia", "Liepaja", "Rīgas iela 1", 1, "19:00-20:00"),
+        Delivery("Latvia", "Sigula", "Rīgas iela 1", 1, "16:00-18:00")
     ]
     
     optimized_route = optimizer.optimize_route(deliveries)
