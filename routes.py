@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, request, flash, session
-from models import User, Location, Route
+from models import User, Location, Route, Drivers
 from forms import LoginForm, RegisterForm, LocationForm, UploadLocationsForm, RenameRouteForm
 from utils import get_coordinates
 from datetime import datetime
@@ -266,9 +266,24 @@ def export_locations(route_id):
         headers={'Content-Disposition': f'attachment;filename=locations_{route_id}.csv'}
     )
     return response
-
+'''
 @app.route('/view_drivers')
 @login_required
 def view_drivers():
     routes = Route.query.filter_by(user_id=session['user_id']).all()
     return render_template('view-drivers.html', routes=routes)
+'''
+
+@app.route('/view_drivers')
+@login_required
+def view_drivers():
+    drivers = Drivers.query.all()
+    drivers_data = [{
+        'id': driver.id,
+        'name': driver.name,
+        'surname': driver.surname,
+        'tel_num': driver.tel_num,
+        'depot_address': driver.depot_address
+    } for driver in drivers]
+    return render_template('view-drivers.html', drivers=drivers_data)
+
