@@ -1,7 +1,7 @@
 from app import app, db
 from flask import render_template, redirect, url_for, request, flash, session
 from models import User, Location, Route, Drivers
-from forms import LoginForm, RegisterForm, LocationForm, UploadLocationsForm, RenameRouteForm
+from forms import LoginForm, RegisterForm, LocationForm, UploadLocationsForm, RenameRouteForm, EditDriverPriorityForm
 from utils import get_coordinates
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -266,24 +266,26 @@ def export_locations(route_id):
         headers={'Content-Disposition': f'attachment;filename=locations_{route_id}.csv'}
     )
     return response
-'''
-@app.route('/view_drivers')
-@login_required
-def view_drivers():
-    routes = Route.query.filter_by(user_id=session['user_id']).all()
-    return render_template('view-drivers.html', routes=routes)
-'''
 
 @app.route('/view_drivers')
 @login_required
 def view_drivers():
-    drivers = Drivers.query.all()
-    drivers_data = [{
-        'id': driver.id,
-        'name': driver.name,
-        'surname': driver.surname,
-        'tel_num': driver.tel_num,
-        'depot_address': driver.depot_address
-    } for driver in drivers]
-    return render_template('view-drivers.html', drivers=drivers_data)
+    # Show only drivers for the current user
+    user_id = session['user_id']
+    drivers = Drivers.query.filter_by(user_id=user_id).all()
+    return render_template('view-drivers.html', drivers=drivers)
 
+@app.route('/edit_driver_priority/<int:driver_id>', methods=['GET', 'POST'])
+@login_required
+def edit_driver_priority(driver_id):
+    user_id = session['user_id']
+    driver = Drivers.query.filter_by(id=driver_id, user_id=user_id).first_or_404()
+    form = EditDriverPriorityForm()
+    if form.validate_on_submit():
+        driver.priority = form.priority.data
+        db.session.commit()
+        flash('Driver priority updated successfully', 'success')
+        return redirect(url_for('view_drivers'))
+    elif request.method == 'GET':
+        form.priority.data = driver.priority
+    return render_template('edit-driver-priority.html', form=form, driver=driver)

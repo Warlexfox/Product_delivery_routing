@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FileField, SelectField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, FileField, SelectField, IntegerField
+from wtforms.validators import DataRequired, Email, EqualTo, NumberRange
 
 class LoginForm(FlaskForm):
     email = StringField('Email:', validators=[DataRequired(), Email(message='Invalid email format')])
@@ -33,3 +33,7 @@ class UploadLocationsForm(FlaskForm):
 class RenameRouteForm(FlaskForm):
     name = StringField('New Route Name', validators=[DataRequired()])
     submit = SubmitField('Rename')
+
+class EditDriverPriorityForm(FlaskForm):
+    priority = IntegerField('Driver Priority', validators=[DataRequired(), NumberRange(min=1, message='Priority must be >= 1')])
+    submit = SubmitField('Save')

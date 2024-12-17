@@ -15,6 +15,7 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
 class Route(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -27,6 +28,7 @@ class Route(db.Model):
     def __repr__(self):
         return f"<Route {self.name}>"
 
+
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     address = db.Column(db.String(200), nullable=False)
@@ -36,9 +38,14 @@ class Location(db.Model):
     timeframe = db.Column(db.String(50), nullable=False)
     route_id = db.Column(db.Integer, db.ForeignKey('route.id'), nullable=False)
 
+    # New field: link a driver to a location
+    driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=True)
+    driver = db.relationship('Drivers', backref='locations', lazy=True)
+
     def __repr__(self):
         return f"<Location {self.address}>"
-    
+
+
 class Drivers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -46,6 +53,9 @@ class Drivers(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tel_num = db.Column(db.Integer, nullable=False)
     depot_address = db.Column(db.String(200), nullable=False)
+    priority = db.Column(db.Integer, nullable=False, default=1)
+
+    user = db.relationship('User', backref='drivers', lazy=True)
 
     def __repr__(self):
-        return f"<Driver {self.name}>"
+        return f"<Driver {self.name} {self.surname} Priority={self.priority}>"
