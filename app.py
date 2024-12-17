@@ -23,7 +23,7 @@ def seed_database():
 
     # Pievieno testa lietotāju
     test_user = User(email='1@mail.com')
-    test_user.set_password('test1')
+    test_user.set_password('1')
     db.session.add(test_user)
 
     # Pievieno testa maršrutu

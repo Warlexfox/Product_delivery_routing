@@ -1,6 +1,5 @@
-{% extends "base.html" %}
-{% block title %}Drivers{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Drivers{% endblock %} {% block
+content %}
 <section class="drivers-section">
   <h1 class="header--primary">Drivers</h1>
 
@@ -10,16 +9,38 @@
       <div class="table__cell">Nr</div>
       <div class="table__cell">Name</div>
       <div class="table__cell">Surname</div>
+      <div class="table__cell">Home depot</div>
       <div class="table__cell">Priority</div>
       <div class="table__cell">Edit Priority</div>
     </div>
-    
+
+    <div class="table__row">
+      <div class="table__cell">2</div>
+      <div class="table__cell">Mary</div>
+      <div class="table__cell">Sue</div>
+      <div class="table__cell">Some adress</div>
+      <div class="table__cell">2</div>
+      <div class="table__cell"><a href="#" class="table__link">Edit</a></div>
+    </div>
+    <div class="table__row">
+      <div class="table__cell">1</div>
+      <div class="table__cell">John</div>
+      <div class="table__cell">Doe</div>
+      <div class="table__cell">Some adress</div>
+      <div class="table__cell">
+        <input type="number" class="table__input" />
+      </div>
+      <div class="table__cell">
+        <a href="#" class="table__link table__link--save">Save</a>
+      </div>
+    </div>
     {% for driver in drivers %}
     <!-- Data Rows -->
     <div class="table__row">
       <div class="table__cell">{{ loop.index }}</div>
       <div class="table__cell">{{ driver.name }}</div>
       <div class="table__cell">{{ driver.surname }}</div>
+      <div class="table__cell">Some adress</div>
       <div class="table__cell">
         <input type="number" class="table__input" />
       </div>
