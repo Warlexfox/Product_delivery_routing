@@ -410,6 +410,10 @@ input[type="number"] {
   grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr;
 }
 
+.edit-driver-priority-section {
+  max-width: 45rem;
+}
+
 /* /////////////// */
 /* FOOTER */
 .footer {
