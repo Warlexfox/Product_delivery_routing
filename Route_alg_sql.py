@@ -1,164 +1,143 @@
-## "python.defaultInterpreterPath": "C:\\Users\\Janis Zageris\\AppData\\Local\\Microsoft\\WindowsApps\\python3.8.exe"
-
-# Primitīvs maršruta organizētāja algoritms, strādā pats un spēj izveidot loģisku sarakstu balstoties uz laikiem un attālumiem
-# Spēj strādāt ar vairākiem šoferiem
-# Izmantoju google maps api, debug printi dod papildinformāciju par braukšanas laiku
-# TODO: Vajag inputu iegūt no datubāzēm.
-
 from datetime import datetime, timedelta
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 import googlemaps
-from models import Driver, Endpoint, SortedEndpoint, db, app
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from models import Drivers, Location, Route, db
 
-# Define the Driver and Delivery classes for internal use
-class Driver:
-    def __init__(self, driver_id: str, first_name: str, last_name: str, phone_number: str, current_location: str = None):
-        self.driver_id = driver_id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.phone_number = phone_number
-        self.current_location = current_location  # Initialize with current location or None for depot
+def calculate_distance(api_key: str, origin: str, destination: str) -> float:
+    """Calculate driving distance using Google Maps API"""
+    print(f"Calculating distance from '{origin}' to '{destination}'")
+    gmaps = googlemaps.Client(key=api_key)
+    try:
+        result = gmaps.distance_matrix(origin, destination, mode='driving')
+        if 'origin_addresses' in result and not result['origin_addresses']:
+            raise ValueError(f"Invalid origin address: {origin}")
+        if result['rows'] and result['rows'][0]['elements']:
+            element = result['rows'][0]['elements'][0]
+            if 'distance' in element:
+                return element['distance']['value']
+        print(f"Unexpected API response: {result}")
+        return float('inf')
+    except Exception as e:
+        print(f"Error during API call: {e}")
+        return float('inf')
 
-    def update_location(self, new_location: str):
-        self.current_location = new_location
+def parse_timeframe(timeframe: str) -> Tuple[datetime, datetime]:
+    """Parse timeframe string into start and end datetime objects"""
+    start, end = timeframe.split('-')
+    return datetime.strptime(start, '%H:%M'), datetime.strptime(end, '%H:%M')
 
+def fetch_data_from_db(route_id: int):
+    """Fetch drivers and locations from the database"""
+    drivers = Drivers.query.all()
+    driver_data = [
+        {
+            'driver_id': driver.id,
+            'first_name': driver.name,
+            'last_name': driver.surname,
+            'phone_number': driver.tel_num,
+            'current_location': driver.depot_address
+        }
+        for driver in drivers
+    ]
 
-class Delivery:
-    def __init__(self, country: str, city: str, address: str, priority: int, timeframe: str):
-        self.country = country
-        self.city = city
-        self.address = address
-        self.priority = priority
-        self.timeframe_start, self.timeframe_end = self._parse_timeframe(timeframe)
-        self.full_address = f"{address}, {city}, {country}"
+    locations = Location.query.filter_by(route_id=route_id).all()
+    delivery_data = [
+        {
+            'id': location.id,
+            'address': location.address,
+            'latitude': location.latitude,
+            'longitude': location.longitude,
+            'priority': location.priority,
+            'timeframe': location.timeframe,
+            'route_id': location.route_id
+        }
+        for location in locations
+    ]
 
-    def _parse_timeframe(self, timeframe: str) -> Tuple[datetime, datetime]:
-        start, end = timeframe.split('-')
-        return datetime.strptime(start, '%H:%M'), datetime.strptime(end, '%H:%M')
+    return driver_data, delivery_data
 
+def save_optimized_route_to_db(optimized_route: List[Dict], route_id: int):
+    """Save the optimized route back to the database"""
+    for i, assignment in enumerate(optimized_route, 1):
+        delivery = assignment['delivery']
+        driver = assignment['driver']
+        location = Location.query.get(delivery['id'])
+        location.driver_id = driver['driver_id']
+        db.session.add(location)
+    db.session.commit()
 
-class RouteOptimizer:
-    def __init__(self, api_key: str, depot_address: str, drivers: List[Driver]):
-        self.gmaps = googlemaps.Client(key=api_key)
-        self.depot_address = depot_address
-        self.drivers = drivers  # List of available drivers
+def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]:
+    """
+    Optimize delivery route based on priorities and timeframes.
 
-    def calculate_distance(self, origin: str, destination: str) -> float:
-        print(f"Calculating distance from '{origin}' to '{destination}'")  # Debugging
-        try:
-            result = self.gmaps.distance_matrix(origin, destination, mode='driving')
-            if 'origin_addresses' in result and not result['origin_addresses']:
-                raise ValueError(f"Invalid origin address: {origin}")
-            if result['rows'] and result['rows'][0]['elements']:
-                element = result['rows'][0]['elements'][0]
-                if 'distance' in element:
-                    return element['distance']['value']
-            print(f"Unexpected API response: {result}")
-            return float('inf')  # Default high value
-        except Exception as e:
-            print(f"Error during API call: {e}")
-            return float('inf')
+    :param api_key: Google Maps API Key
+    :param depot_address: Address of the depot
+    :param drivers: List of drivers with current location
+    :param deliveries: List of deliveries with priorities and timeframes
+    :return: Optimized route as a list of assignments
+    """
+    # Prepare deliveries by parsing timeframe and adding a full address
+    deliveries = [
+        {
+            **delivery,
+            'timeframe_start': parse_timeframe(delivery['timeframe'])[0],
+            'timeframe_end': parse_timeframe(delivery['timeframe'])[1]
+        }
+        for delivery in deliveries
+    ]
 
-    def optimize_route(self, deliveries: List[Delivery]) -> List[Tuple[Delivery, Driver]]:
-        # Sort deliveries primarily by priority (highest first) and secondarily by their start time
-        deliveries.sort(key=lambda x: (-x.priority, x.timeframe_start))
-        optimized_route = []
-        stop_time = timedelta(minutes=15)  # Assume 15 minutes per delivery
-        current_time = max(deliveries[0].timeframe_start, datetime.now())
+    # Sort deliveries primarily by priority (highest first) and secondarily by their start time
+    deliveries.sort(key=lambda x: (-x['priority'], x['timeframe_start']))
 
-        for delivery in deliveries:
-            best_driver = None
-            best_distance = float('inf')
+    optimized_route = []
+    stop_time = timedelta(minutes=15)  # 15 minutes per delivery
 
-            # Compare distances for each driver
-            for driver in self.drivers:
-                # Use the driver's current location (if any) or the depot if the driver is not deployed yet
-                driver_location = driver.current_location or self.depot_address
+    for delivery in deliveries:
+        best_driver = None
+        best_distance = float('inf')
 
-                # Calculate distance from driver to delivery address
-                travel_distance = self.calculate_distance(driver_location, delivery.full_address)
+        # Compare distances for each driver
+        for driver in drivers:
+            driver_location = driver['current_location'] or depot_address
 
-                if travel_distance < best_distance:
-                    best_distance = travel_distance
-                    best_driver = driver
+            # Calculate distance from driver to delivery address
+            travel_distance = calculate_distance(api_key, driver_location, delivery['address'])
 
-            if best_driver:
-                # Assign the best driver to the delivery
-                optimized_route.append((delivery, best_driver))
-                # Update driver's location to the delivery address
-                best_driver.update_location(delivery.full_address)
+            if travel_distance < best_distance:
+                best_distance = travel_distance
+                best_driver = driver
 
-                # Add the delivery time and stop time to the current time
-                current_time += timedelta(seconds=(best_distance / 70000) * 3600) + stop_time  # Assuming 70km/h speed
+        if best_driver:
+            # Assign the best driver to the delivery
+            optimized_route.append({
+                'delivery': delivery,
+                'driver': best_driver
+            })
 
-        return optimized_route
+            # Update driver location to the delivery address
+            best_driver['current_location'] = delivery['address']
 
-
-# Fetch data from the database
-def fetch_data():
-    with app.app_context():
-        # Fetch drivers from the database
-        drivers = Driver.query.all()
-        driver_objects = [
-            Driver(
-                driver_id=str(driver.id),
-                first_name=driver.name,
-                last_name=driver.surname,
-                phone_number=driver.phone_number,
-                current_location=driver.depot_address
-            )
-            for driver in drivers
-        ]
-
-        # Fetch endpoints from the database
-        deliveries = Endpoint.query.all()
-        delivery_objects = [
-            Delivery(
-                country=endpoint.country,
-                city=endpoint.city,
-                address=endpoint.address,
-                priority=endpoint.priority,
-                timeframe=endpoint.delivery_time
-            )
-            for endpoint in deliveries
-        ]
-
-        return driver_objects, delivery_objects
-
-
-# Save sorted endpoints back to the database
-def save_sorted_endpoints(optimized_route, route_id):
-    with app.app_context():
-        for i, (delivery, driver) in enumerate(optimized_route, 1):
-            sorted_endpoint = SortedEndpoint(
-                route_id=route_id,
-                consecutive_number=i,
-                full_address=delivery.full_address,
-                delivery_time=f"{delivery.timeframe_start.strftime('%H:%M')} - {delivery.timeframe_end.strftime('%H:%M')}",
-                driver_id=driver.driver_id
-            )
-            db.session.add(sorted_endpoint)
-        db.session.commit()
-
+    return optimized_route
 
 def main():
-    # API Key and Depot Address
-    api_key = "YOUR_GOOGLE_MAPS_API_KEY"
+    """Main function to run the route optimization"""
+    api_key = "AIzaSyBMIUvpEMX0yupxfDxyhjM3qQM0eSTwXHY"
     depot_address = "Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004"
 
-    # Example route ID (this can be dynamic in future implementations)
+    # Test route ID, PĀRMAINĪT!!!
     route_id = 1
 
-    # Fetch data from the database
-    drivers, deliveries = fetch_data()
+    with db.session.app.app_context():
+        # Fetch data from the database
+        drivers, deliveries = fetch_data_from_db(route_id)
 
-    # Optimize the route
-    optimizer = RouteOptimizer(api_key, depot_address, drivers)
-    optimized_route = optimizer.optimize_route(deliveries)
+        # Optimize the route
+        optimized_route = optimize_route(api_key, depot_address, drivers, deliveries)
 
-    # Save the optimized route back to the database
-    save_sorted_endpoints(optimized_route, route_id)
-
+        # Save the optimized route back to the database
+        save_optimized_route_to_db(optimized_route, route_id)
 
 if __name__ == "__main__":
     main()
