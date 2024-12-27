@@ -37,7 +37,8 @@ def fetch_data_from_db(route_id: int):
             'first_name': driver.name,
             'last_name': driver.surname,
             'phone_number': driver.tel_num,
-            'current_location': driver.depot_address
+            'current_location': driver.depot_address,
+            'priority': driver.priority  # Added priority
         }
         for driver in drivers
     ]
@@ -49,7 +50,6 @@ def fetch_data_from_db(route_id: int):
             'address': location.address,
             'latitude': location.latitude,
             'longitude': location.longitude,
-            'priority': location.priority,
             'timeframe': location.timeframe,
             'route_id': location.route_id
         }
@@ -70,15 +70,15 @@ def save_optimized_route_to_db(optimized_route: List[Dict], route_id: int):
 
 def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]:
     """
-    Optimize delivery route based on priorities and timeframes.
+    Optimize delivery route based on driver priorities and timeframes.
 
     :param api_key: Google Maps API Key
     :param depot_address: Address of the depot
-    :param drivers: List of drivers with current location
-    :param deliveries: List of deliveries with priorities and timeframes
+    :param drivers: List of drivers with current location and priority
+    :param deliveries: List of deliveries with timeframes
     :return: Optimized route as a list of assignments
     """
-    # Prepare deliveries by parsing timeframe and adding a full address
+    # Prepare deliveries by parsing timeframe
     deliveries = [
         {
             **delivery,
@@ -88,8 +88,11 @@ def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], delive
         for delivery in deliveries
     ]
 
-    # Sort deliveries primarily by priority (highest first) and secondarily by their start time
-    deliveries.sort(key=lambda x: (-x['priority'], x['timeframe_start']))
+    # Sort deliveries by their start time (earliest deliveries first)
+    deliveries.sort(key=lambda x: x['timeframe_start'])
+
+    # Sort drivers by their priority (lowest number has highest priority)
+    drivers.sort(key=lambda x: x['priority'])
 
     optimized_route = []
     stop_time = timedelta(minutes=15)  # 15 minutes per delivery
@@ -98,7 +101,7 @@ def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], delive
         best_driver = None
         best_distance = float('inf')
 
-        # Compare distances for each driver
+        # Assign drivers based on priority
         for driver in drivers:
             driver_location = driver['current_location'] or depot_address
 
@@ -116,13 +119,12 @@ def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], delive
                 'driver': best_driver
             })
 
-            # Update driver location to the delivery address
+            # Update driver's location to the delivery address
             best_driver['current_location'] = delivery['address']
 
     return optimized_route
 
 def main():
-    """Main function to run the route optimization"""
     api_key = "AIzaSyBMIUvpEMX0yupxfDxyhjM3qQM0eSTwXHY"
     depot_address = "Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004"
 
