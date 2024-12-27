@@ -10,47 +10,47 @@ import googlemaps
 
 AVERAGE_SPEED_KMH = 70 # Vidējais braukšanas ātrums km/h
 
-def calculate_travel_time(distance_meters: float) -> timedelta:
+def calculate_travel_time(distance_meters: float) -> timedelta: # Aprēķina braukšanas laiku
     """Calculate travel time given the distance in meters and average speed."""
-    distance_km = distance_meters / 1000  # No metriem uz kilometriem
+    distance_km = distance_meters / 1000  # Pārvērš no metriem uz kilometriem
     travel_hours = distance_km / AVERAGE_SPEED_KMH
     return timedelta(hours=travel_hours)
 
-def calculate_distance(api_key: str, origin: str, destination: str) -> float:
+def calculate_distance(api_key: str, origin: str, destination: str) -> float: # Aprēķina attālumu
     """Calculate driving distance using Google Maps API"""
     print(f"Calculating distance from '{origin}' to '{destination}'")
-    gmaps = googlemaps.Client(key=api_key)
-    try:
+    gmaps = googlemaps.Client(key=api_key) # google maps api
+    try: # Pārbauda vai ir kļūda
         result = gmaps.distance_matrix(origin, destination, mode='driving')
         if 'origin_addresses' in result and not result['origin_addresses']:
             raise ValueError(f"Invalid origin address: {origin}")
         if result['rows'] and result['rows'][0]['elements']:
             element = result['rows'][0]['elements'][0]
-            if 'distance' in element:
+            if 'distance' in element: # Pārbauda vai ir attālums
                 return element['distance']['value']
-        print(f"Unexpected API response: {result}")
+        print(f"Unexpected API response: {result}") 
         return float('inf')
-    except Exception as e:
+    except Exception as e: # Ja ir kļūda, tad atgriež bezgalību
         print(f"Error during API call: {e}")
         return float('inf')
 
-def parse_timeframe(timeframe: str) -> Tuple[datetime, datetime]:
+def parse_timeframe(timeframe: str) -> Tuple[datetime, datetime]: # Izveido laika rādītāju
     """Parse timeframe string into start and end datetime objects"""
     start, end = timeframe.split('-')
     return datetime.strptime(start, '%H:%M'), datetime.strptime(end, '%H:%M')
 
-def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]:
+def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: # Optimizē maršrutu
     """
     Optimize delivery route based on driver priorities and timeframes.
 
-    :param api_key: Google Maps API Key
-    :param depot_address: Address of the depot
-    :param drivers: List of drivers with current location and priority
-    :param deliveries: List of deliveries with timeframes
-    :return: Optimized route as a list of assignments
+    :param api_key: Google Maps API atslēga
+    :param depot_address: Noliktavas adrese (šofera adrese)
+    :param drivers: Šoferu saraksts ar prioritātēm un pašreizējo atrašanās vietu
+    :param deliveries: Piegāžu saraksts ar laika rādītājiem un adresēm
+    :return: Optimizēts piegāžu maršruts
     """
-    # Prepare deliveries by parsing timeframe and adding a full address
-    deliveries = [
+    
+    deliveries = [ 
         {
             **delivery,
             'timeframe_start': parse_timeframe(delivery['timeframe'])[0],
@@ -60,24 +60,24 @@ def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], delive
         for delivery in deliveries
     ]
 
-    # Sort deliveries by their start time (earliest deliveries first)
+    # Sortē piegādes pēc to sākuma laika (sāk ar agrākajām piegādēm)
     deliveries.sort(key=lambda x: x['timeframe_start'])
 
-    # Sort drivers by their priority (lowest number has highest priority)
+    # Sortē šoforus pēc prioritātes (augošā secībā)
     drivers.sort(key=lambda x: x['priority'])
 
     optimized_route = []
-    stop_time = timedelta(minutes=15)  # 15 minūtes katrā piegādes punktā
+    stop_time = timedelta(minutes=15)  # Pavada 15 minūtes starp piegādēm
 
     for delivery in deliveries:
         best_driver = None
         best_distance = float('inf')
 
-        # Assign drivers based on priority
+        # Piešķir šoferus pēc prioritātes
         for driver in drivers:
             driver_location = driver['current_location'] or depot_address
 
-            # Calculate distance from driver to delivery address
+            # Aprēķina attālumu no vadītāja līdz piegādes adresei
             travel_distance = calculate_distance(api_key, driver_location, delivery['full_address'])
 
             if travel_distance < best_distance:
@@ -85,21 +85,20 @@ def optimize_route(api_key: str, depot_address: str, drivers: List[Dict], delive
                 best_driver = driver
 
         if best_driver:
-            # Assign the best driver to the delivery
+            # Piešķir piegādei šoferi pēc īsākā attāluma līdz adresei
             optimized_route.append({
                 'delivery': delivery,
                 'driver': best_driver
             })
 
-            # Update driver's location to the delivery address
+            # Atjaunina vadītāja atrašanās vietu uz piegādes adresi
             best_driver['current_location'] = delivery['full_address']
 
     return optimized_route
 
-def main():
-    """Main function to run the route optimization"""
-    api_key = "AIzaSyBMIUvpEMX0yupxfDxyhjM3qQM0eSTwXHY"
-    depot_address = "Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004"
+def main(): # Pamatfunkcija
+    api_key = "AIzaSyBMIUvpEMX0yupxfDxyhjM3qQM0eSTwXHY" # Google Maps API atslēga
+    depot_address = "Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004" # Noliktavas adrese
 
     # Test data
     drivers = [
@@ -117,21 +116,21 @@ def main():
         {'country': 'Latvia', 'city': 'Sigulda', 'address': 'Rīgas iela 1', 'timeframe': '16:00-18:00'}
     ]
 
-    # Optimize the route
+    # Optimizē maršrutu
     optimized_route = optimize_route(api_key, depot_address, drivers, deliveries)
 
-    # Print the optimized route
+    # Izprintē optimizēto maršrutu
     print("Optimized Delivery Route:\n")
-    for i, assignment in enumerate(optimized_route, 1):
+    for i, assignment in enumerate(optimized_route, 1): # Rekursīvā funkcija, kas izprintētē maršrutu
         delivery = assignment['delivery']
         driver = assignment['driver']
         driver_location = driver['current_location'] or depot_address
 
-        # Calculate the travel distance and estimated arrival time
+        # Aprēķina ceļojuma attālumu un paredzamo ierašanās laiku
         travel_distance = calculate_distance(api_key, driver_location, delivery['full_address'])
         travel_time = calculate_travel_time(travel_distance)
 
-        # Estimated arrival time
+        # Ierašānās laiks = piegādes sākuma laiks - ceļojuma laiks
         estimated_arrival = delivery['timeframe_start'] - travel_time
 
         print(f"Stop {i}:")
