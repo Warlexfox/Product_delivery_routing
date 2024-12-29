@@ -64,38 +64,36 @@ def run_optimization(route_id, user_id):
     for index, assignment in enumerate(optimized_route, start=1):
         new_entry = OptimizedRoute(
             route_id=route_id,
-            country=assignment['delivery']['country'],
-            city=assignment['delivery']['city'],
-            address=assignment['delivery']['address'],
-            latitude=assignment['delivery'].get('latitude'),
-            longitude=assignment['delivery'].get('longitude'),
-            timeframe=assignment['delivery']['timeframe'],
-            driver_id=assignment['driver']['driver_id'],
+            country=assignment['country'],
+            city=assignment['city'],
+            address=assignment['address'],
+            latitude=assignment['latitude'],
+            longitude=assignment['longitude'],
+            timeframe=assignment['timeframe'],
+            driver_id=assignment["driver"]['driver_id'],
             order=index,
+            estimated_arrival=assignment['estimated_arrival']
         )
         db.session.add(new_entry)
     db.session.commit()
 
-# TODO DELET THIS
 if __name__ == "__main__":
     with app.app_context():
-    # Retrieve the first existing user
+        # Testēšanai iegūst pirmo lietotāju
         user = User.query.first()
         if not user:
             print("No user found in the database. Please ensure there is at least one user.")
             exit()
 
-        # Retrieve the first route associated with the user
+        # Testēšanai iegūst pirmo leitotāja maršrutu
         route = Route.query.filter_by(user_id=user.id).first()
         if not route:
             print(f"No route found for user {user.id}. Please ensure the user has at least one route.")
             exit()
 
-        # Print details for debugging
         print(f"Using existing user: {user.id} - {user.email}")
         print(f"Using existing route: {route.id} - {route.name}")
 
-        # Check if there are locations for this route
         locations = Location.query.filter_by(route_id=route.id).all()
         if not locations:
             print(f"No locations found for route {route.id}. Please ensure the route has associated locations.")
@@ -109,5 +107,3 @@ if __name__ == "__main__":
         optimizedRout = OptimizedRoute.query.filter_by(route_id=route.id).all()
         for i in optimizedRout:
             print(i)
-
-        print("Optimization completed successfully.")

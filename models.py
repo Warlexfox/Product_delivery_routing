@@ -68,8 +68,9 @@ class OptimizedRoute(db.Model):
     timeframe = db.Column(db.String(50), nullable=False)
     driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=False)
     order = db.Column(db.Integer, nullable=False)
+    estimated_arrival = db.Column(db.String(50), nullable=False)
 
     driver = db.relationship('Drivers', backref='optimized_routes', lazy=True)
 
     def __repr__(self):
-        return f"<OptimizedRoute Address={self.country} {self.city} {self.address} DriverID={self.driver_id} Order={self.order}>"
+        return f"<OptimizedRoute Address={self.country} {self.city} {self.address} DriverID={self.driver_id} Order={self.order} Estimated arrival={self.estimated_arrival}>"

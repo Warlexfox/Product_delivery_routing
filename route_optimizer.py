@@ -95,8 +95,16 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: #
         
         # Piešķir piegādei šoferi pēc īsākā attāluma līdz adresei
         optimized_route.append({
-            'delivery': delivery,
-            'driver': best_driver,
+            "country": delivery['country'],
+            "city": delivery['city'],
+            "address": delivery['address'],
+            "latitude": delivery.get('latitude'),
+            "longitude": delivery.get('longitude'),
+            "timeframe": delivery['timeframe'],
+            "timeframe_start": delivery['timeframe_start'],
+            "timeframe_end": delivery['timeframe_end'],
+            "driver": best_driver,
+            "order": len(optimized_route) + 1,
             'estimated_arrival': estimated_arrival
         })
 
@@ -115,7 +123,7 @@ def main():
         {'country': 'Latvia', 'city': 'Riga', 'address': 'Daugavgrivas iela 2', 'timeframe': '10:00-14:00'},
         {'country': 'Latvia', 'city': 'Riga', 'address': 'Tērbatas iela 50', 'timeframe': '09:00-10:00'},
         {'country': 'Latvia', 'city': 'Riga', 'address': 'Krišjāņa Valdemāra iela 75', 'timeframe': '09:00-10:00'},
-        {'country': 'Latvia', 'city': 'Liepaja', 'address': 'Rīgas iela 1', 'timeframe': '19:00-20:00'},
+        {'country': 'Latvia', 'city': 'Liepaja', 'address': 'Rīgas iela 1', 'timeframe': '15:00-20:00'},
         {'country': 'Latvia', 'city': 'Sigulda', 'address': 'Rīgas iela 1', 'timeframe': '16:00-18:00'}
     ]
 
@@ -125,13 +133,18 @@ def main():
     # Izprintē optimizēto maršrutu
     print("Optimized Delivery Route:\n")
     for i, assignment in enumerate(optimized_route, 1): # Rekursīvā funkcija, kas izprintētē maršrutu
-        delivery = assignment['delivery']
+        country = assignment['country']
+        city = assignment['city']
+        address = assignment['address']
+        timeframe_start = assignment['timeframe_start']
+        timeframe_end = assignment['timeframe_end']
         driver = assignment['driver']
         estimated_arrival = assignment['estimated_arrival']
 
+        print("*****")
         print(f"Stop {i}:")
-        print(f"Address: {delivery['full_address']}")
-        print(f"Time window: {delivery['timeframe_start'].strftime('%H:%M')} - {delivery['timeframe_end'].strftime('%H:%M')}")
+        print(f"Address: {country}, {city}, {address}")
+        print(f"Time window: {timeframe_start.strftime('%H:%M')} - {timeframe_end.strftime('%H:%M')}")
         print(f"Driver: {driver['first_name']} {driver['last_name']} (ID: {driver['driver_id']})")
         print(f"Estimated Arrival: {estimated_arrival.strftime('%H:%M')}")
         print("---")
