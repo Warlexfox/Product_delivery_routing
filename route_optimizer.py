@@ -82,16 +82,23 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: #
             if travel_distance < best_distance:
                 best_distance = travel_distance
                 best_driver = driver
-
-        if best_driver:
-            # Piešķir piegādei šoferi pēc īsākā attāluma līdz adresei
-            optimized_route.append({
-                'delivery': delivery,
-                'driver': best_driver
-            })
-
+            
             # Atjaunina vadītāja atrašanās vietu uz piegādes adresi
-            best_driver['current_location'] = delivery['full_address']
+            driver['current_location'] = delivery['full_address']
+        
+        # Aprēķina ceļojuma attālumu un paredzamo ierašanās laiku
+        travel_distance = calculate_distance(driver['current_location'], delivery['full_address'])
+        travel_time = calculate_travel_time(travel_distance)
+        
+        # Ierašānās laiks = piegādes sākuma laiks - ceļojuma laiks
+        estimated_arrival = delivery['timeframe_start'] - (travel_time + stop_time)
+        
+        # Piešķir piegādei šoferi pēc īsākā attāluma līdz adresei
+        optimized_route.append({
+            'delivery': delivery,
+            'driver': best_driver,
+            'estimated_arrival': estimated_arrival
+        })
 
     return optimized_route
 
@@ -120,14 +127,7 @@ def main():
     for i, assignment in enumerate(optimized_route, 1): # Rekursīvā funkcija, kas izprintētē maršrutu
         delivery = assignment['delivery']
         driver = assignment['driver']
-        driver_location = driver['current_location']
-
-        # Aprēķina ceļojuma attālumu un paredzamo ierašanās laiku
-        travel_distance = calculate_distance(driver_location, delivery['full_address'])
-        travel_time = calculate_travel_time(travel_distance)
-
-        # Ierašānās laiks = piegādes sākuma laiks - ceļojuma laiks
-        estimated_arrival = delivery['timeframe_start'] - travel_time
+        estimated_arrival = assignment['estimated_arrival']
 
         print(f"Stop {i}:")
         print(f"Address: {delivery['full_address']}")
