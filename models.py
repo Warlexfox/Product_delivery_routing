@@ -66,9 +66,10 @@ class OptimizedRoute(db.Model):
     latitude = db.Column(db.Float, nullable=True)
     longitude = db.Column(db.Float, nullable=True)
     timeframe = db.Column(db.String(50), nullable=False)
-    driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=False)
+    driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=True)
     order = db.Column(db.Integer, nullable=False)
     estimated_arrival = db.Column(db.String(50), nullable=False)
+    deliverable = db.Column(db.Boolean, nullable=False, default=True)
 
     driver = db.relationship('Drivers', backref='optimized_routes', lazy=True)
 

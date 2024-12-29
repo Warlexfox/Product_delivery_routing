@@ -1,8 +1,9 @@
-# Primitīvs maršruta organizētāja algoritms, strādā pats un spēj izveidot loģisku sarakstu balstoties uz laikiem un attālumiem
-# Spēj strādāt ar vairākiem šoferiem
-# Izmantoju google maps api, debug printi dod papildinformāciju par braukšanas laiku
-# Bez klasēm!!!
-# TODO: Vajag inputu iegūt no datubāzēm.
+# TODO
+# 1. pirms funkcija jebko atgriež, izņemt vias piegādes atsevišķā sarakstā, kur viņi būtu sagrupēti kopā pēc vadītājiem, tad apvienot un izlabot kārtas numurus 
+# 2. salabot lai strādātu "gaidāmais ierašanās laiks"
+# 3. uztaisīt loģiku, lai nepārslogotu vadītājus, piemēram visi vadītāji var strādāt ne ilgāk kā 8 stundas
+# 4. Visi vadītāji uzsāk savu maiņu plsk 9:00, viņu maiņa beidzas ne vēlāk kā pēc plsk 18:00, NEņemt vērā to, ka šoferim ir jāatgriežas uz depo
+# 5. Ja pietrūkst vadītāju, lai piegādātu kādu paciņu, tad pie vadītāja ielikt null un pie gaidāmā piegādes laika ierakstīt "cant deliver this package" un attribūts deliverable ir false
 
 from datetime import datetime, timedelta
 from typing import List, Tuple, Dict
@@ -105,7 +106,8 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: #
             "timeframe_end": delivery['timeframe_end'],
             "driver": best_driver,
             "order": len(optimized_route) + 1,
-            'estimated_arrival': estimated_arrival
+            'estimated_arrival': estimated_arrival,
+            "deliverable": True
         })
 
     return optimized_route
