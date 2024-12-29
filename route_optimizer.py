@@ -40,16 +40,12 @@ def parse_timeframe(timeframe: str) -> Tuple[datetime, datetime]: # Izveido laik
     start, end = timeframe.split('-')
     return datetime.strptime(start, '%H:%M'), datetime.strptime(end, '%H:%M')
 
-def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: 
+def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: # Optimizē maršrutu
     """
-    Optimize delivery route based on driver priorities and timeframes.
-
-    :param depot_address: Noliktavas adrese (šofera adrese)
-    :param drivers: Šoferu saraksts ar prioritātēm un pašreizējo atrašanās vietu
-    :param deliveries: Piegāžu saraksts ar laika rādītājiem un adresēm
-    :return: Optimizēts piegāžu maršruts
+    Optimize delivery route based on driver priorities and timeframes, 
+    while ensuring no driver works more than 8 hours and handling cases
+    where no drivers are available.
     """
-    
     deliveries = [ 
         {
             **delivery,
@@ -63,44 +59,39 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]:
     # Sortē piegādes pēc to sākuma laika (sāk ar agrākajām piegādēm)
     deliveries.sort(key=lambda x: x['timeframe_start'])
 
-    # Sortē šoforus pēc prioritātes (augošā secībā)
-    drivers.sort(key=lambda x: x['priority'])
-
-    # Šoferu darba laiks
+    # Sortē šoferus pēc prioritātes (augošā secībā)
     for driver in drivers:
-        driver['total_working_time'] = timedelta()  # Sāk lasīt darba laiku
-        driver['shift_start'] = datetime.strptime("09:00", "%H:%M")
-        driver['shift_end'] = datetime.strptime("18:00", "%H:%M")
+        driver['total_working_time'] = timedelta()  # Initialize working time
 
     optimized_route = []
-    stop_time = timedelta(minutes=15)  # Laiks starp piegādi (15 minutes)
-    max_working_time = timedelta(hours=8)  # Max strādāšanas laiks (8 hours)
+    stop_time = timedelta(minutes=15)  # Pavada 15 minūtes piegādes laikā
+    max_working_time = timedelta(hours=8)  # Maksimālais darba laiks
+    shift_start = datetime.strptime("09:00", "%H:%M")
+    shift_end = datetime.strptime("18:00", "%H:%M")
 
     for delivery in deliveries:
         best_driver = None
         best_distance = float('inf')
 
-        # Piešķir šoferus pēc prioritātes
         for driver in drivers:
             # Aprēķina attālumu no vadītāja līdz piegādes adresei
             travel_distance = calculate_distance(driver['current_location'], delivery['full_address'])
-            
-            # Aprēķina braukšanas laiku
             travel_time = calculate_travel_time(travel_distance)
 
-            # Aprēķina aptuveno darba laiku, ko šoferis būs strādājis
+            # Paredzamais laiks, ieskaitot apstāšanās laiku
             projected_working_time = driver['total_working_time'] + travel_time + stop_time
 
-            # Aprēķina aptuveno beigu laiku piegādei
-            estimated_end_time = delivery['timeframe_start'] + (travel_time + stop_time)
+            # Izvēlas tikai tos šoferus, kuriem darba laiks nepārsniedz limitu un ir maiņas ietvaros
+            if (
+                projected_working_time <= max_working_time and
+                delivery['timeframe_start'] >= shift_start and
+                delivery['timeframe_end'] <= shift_end and
+                travel_distance < best_distance
+            ):
+                best_driver = driver
+                best_distance = travel_distance
 
-            # Pārbauda vai šoferis iekļaujās darba laika ierobežojumos un vai šoferis var piegādāt piegādi
-            if projected_working_time <= max_working_time and estimated_end_time <= driver['shift_end']:
-                if travel_distance < best_distance:
-                    best_driver = driver
-                    best_distance = travel_distance
-
-        # Ja neviens šoferis nevar piegādāt piegādi, tad tiek atzīmēts ka piegādi nevar izpildīt
+        # Ja visi šoferi pārsniedz darba laiku vai nav pieejami, piešķir "neizpildāms"
         if not best_driver:
             optimized_route.append({
                 "country": delivery['country'],
@@ -111,29 +102,29 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]:
                 "timeframe": delivery['timeframe'],
                 "timeframe_start": delivery['timeframe_start'],
                 "timeframe_end": delivery['timeframe_end'],
-                "driver": None,  # Netiek piešķirts šoferis
+                "driver": None,
                 "order": len(optimized_route) + 1,
-                'estimated_arrival': "can't deliver this package",  # Piegādi nevar izpildīt
-                "deliverable": False  # Atzīmē kā nepiegādājamuj
+                'estimated_arrival': "cant deliver this package",
+                "deliverable": False
             })
-            continue  # Ignorē šo piegādi un pāriet pie nākamās
+            continue
 
-        # Aprēķina ceļojuma attālumu un paredzamo ierašanās laiku
+        # Aprēķina ceļojuma attālumu un braukšanas laiku
         travel_distance = calculate_distance(best_driver['current_location'], delivery['full_address'])
         travel_time = calculate_travel_time(travel_distance)
 
-        # Aprēķina aptuveno ierašanās laiku
+        # Aprēķina ierašanās laiku
         arrival_time = delivery['timeframe_start'] - travel_time
         if arrival_time < delivery['timeframe_start']:
             estimated_arrival = delivery['timeframe_start']
         else:
             estimated_arrival = arrival_time
 
-        # Atjaunina šofera pašreizējo atrašanās vietu un kopējo strādāšanas laiku
+        # Atjauno vadītāja atrašanās vietu un darba laiku
         best_driver['current_location'] = delivery['full_address']
         best_driver['total_working_time'] += travel_time + stop_time
 
-        # Piešķir piegādei šoferi pēc īsākā attāluma līdz adresei
+        # Pievieno piegādi uz optimizēto maršrutu
         optimized_route.append({
             "country": delivery['country'],
             "city": delivery['city'],
@@ -149,15 +140,16 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]:
             "deliverable": True
         })
 
-    # Grupē piegādes pēc šofera
+    # Grupē piegādes pēc šoferiem
     grouped_deliveries = {}
     for route in optimized_route:
-        driver_id = route['driver']['driver_id'] if route['driver'] else None
+        driver = route['driver']
+        driver_id = driver['driver_id'] if driver else "unassigned"
         if driver_id not in grouped_deliveries:
             grouped_deliveries[driver_id] = []
         grouped_deliveries[driver_id].append(route)
 
-    # Apvieno piegādes un pārskaita kārtas numurus
+    # Apvieno grupas un atjauno secības numurus
     merged_routes = []
     sequence_number = 1
     for driver_id, routes in grouped_deliveries.items():
