@@ -19,10 +19,6 @@ class LocationForm(FlaskForm):
     country = StringField('Country', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
-    priority = SelectField('Priority', choices=[
-        ('1', '1 - Low'), ('2', '2 - Mild'), ('3', '3 - Middle'),
-        ('4', '4 - Important'), ('5', '5 - Imperative')
-    ], validators=[DataRequired()])
     timeframe = StringField('Timeframe', validators=[DataRequired()])
     submit_location = SubmitField('Save Location')
 

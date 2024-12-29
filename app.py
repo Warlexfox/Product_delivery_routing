@@ -34,41 +34,86 @@ def seed_database():
         surname='Bērziņš',
         user_id=test_user.id,
         tel_num=12345678,
-        depot_address='Rīga, Latvija',
-        priority=3
+        depot_address='Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004',
+        priority=1
     )
     driver2 = Drivers(
         name='Kārlis',
         surname='Liepa',
         user_id=test_user.id,
         tel_num=20202020,
-        depot_address='Rēzekne, Latvija',
+        depot_address='Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004',
         priority=2
     )
-    db.session.add_all([driver1, driver2])
+    driver3 = Drivers(
+        name='Sergejs',
+        surname='Zembkovskis',
+        user_id=test_user.id,
+        tel_num=20202020,
+        depot_address='Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004',
+        priority=3
+    )
+    db.session.add_all([driver1, driver2, driver3])
     db.session.commit()
 
     # Add locations and assign them a driver
     # Assign first location to driver1, second to driver2
+
     location_1 = Location(
-        address='Āzenes iela 6, Rīga, Latvija',
+        country='Latvia',
+        city='Riga',
+        address='Brivibas iela 1',
         latitude=56.950929,
         longitude=24.082404,
-        priority=1,
-        timeframe='08:00-09:00',
+        timeframe='09:00-12:00',
         route_id=test_route.id,
-        driver_id=driver1.id
     )
     location_2 = Location(
-        address='Lielezeres iela 10, Rīga, Latvija',
+        country='Latvia', 
+        city='Riga',
+        address='Daugavgrivas iela 2',
         latitude=56.959268,
         longitude=24.055293,
-        priority=2,
+        timeframe='10:00-14:00',
+        route_id=test_route.id,
+    )
+    location_3 = Location(
+        country='Latvia',
+        city='Riga',
+        address='Tērbatas iela 50',
+        latitude=56.956855,
+        longitude=24.116152,
         timeframe='09:00-10:00',
         route_id=test_route.id,
-        driver_id=driver2.id
     )
-    db.session.add_all([location_1, location_2])
+    location_4 = Location(
+        country='Latvia',
+        city='Riga',
+        address='Krišjāņa Valdemāra iela 75',
+        latitude=56.958537,
+        longitude=24.118081,
+        timeframe='09:00-10:00',
+        route_id=test_route.id,
+    )
+    location_5 = Location(
+        country='Latvia',
+        city='Liepaja',
+        address='Rīgas iela 1',
+        latitude=56.504722,
+        longitude=21.010556,
+        timeframe='19:00-20:00',
+        route_id=test_route.id,
+    )
+    location_6 = Location(
+        country='Latvia',
+        city='Sigulda',
+        address='Rīgas iela 1',
+        latitude=57.1547,
+        longitude=24.8597,
+        timeframe='16:00-18:00',
+        route_id=test_route.id,
+    )
+    db.session.add_all([location_1, location_2, location_3, location_4, location_5, location_6])
     db.session.commit()
 
     print('Test data inserted.')

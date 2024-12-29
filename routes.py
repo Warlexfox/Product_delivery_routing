@@ -147,9 +147,10 @@ def add_location(route_id):
         latitude, longitude = get_coordinates(country, city, address)
         if latitude is None or longitude is None:
             return redirect(url_for('add_location', route_id=route_id))
-        full_address = f"{address}, {city}, {country}"
         location = Location(
-            address=full_address,
+            country=country,
+            city=city,
+            address=address,
             latitude=latitude,
             longitude=longitude,
             priority=int(priority),
@@ -181,9 +182,10 @@ def add_location(route_id):
                     latitude, longitude = get_coordinates(country, city, address)
                     if latitude is None or longitude is None:
                         continue
-                    full_address = f"{address}, {city}, {country}"
                     location = Location(
-                        address=full_address,
+                        country=country,
+                        city=city,
+                        address=address,
                         latitude=latitude,
                         longitude=longitude,
                         priority=int(priority),
