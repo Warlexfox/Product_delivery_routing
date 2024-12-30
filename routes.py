@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, request, flash, session
-from models import User, Location, Route, Drivers
+from models import OptimizedRoute, User, Location, Route, Drivers
 from forms import LoginForm, RegisterForm, LocationForm, UploadLocationsForm, RenameRouteForm, EditDriverPriorityForm
 from utils import get_coordinates
 from datetime import datetime
@@ -113,8 +113,20 @@ def delete_route(route_id):
 @app.route('/view_route/<int:route_id>')
 @login_required
 def view_route(route_id):
-    route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
-    return render_template('view-one-route.html', route=route)
+    route = Route.query.get_or_404(route_id)
+    
+    # Query optimized routes for the current route ID, ordered by `order`
+    optimized_routes = (
+        OptimizedRoute.query
+        .filter_by(route_id=route_id)
+        .order_by(OptimizedRoute.order)
+        .all()
+    )
+    return render_template(
+        "view-one-route.html",
+        route=route,
+        optimized_routes=optimized_routes
+    )
 
 @app.route('/rename_route/<int:route_id>', methods=['GET', 'POST'])
 @login_required

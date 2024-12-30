@@ -38,6 +38,7 @@ def run_optimization(route_id, user_id):
     # Sagatavo datus optimizācijas funkcijai
     delivery_data = [
         {
+            "id": loc.id,
             "country": loc.country,
             "city": loc.city,
             "address": loc.address,
@@ -64,14 +65,9 @@ def run_optimization(route_id, user_id):
     for index, assignment in enumerate(optimized_route, start=1):
         new_entry = OptimizedRoute(
             route_id=route_id,
-            country=assignment['country'],
-            city=assignment['city'],
-            address=assignment['address'],
-            latitude=assignment['latitude'],
-            longitude=assignment['longitude'],
-            timeframe=assignment['timeframe'],
-            driver_id=assignment["driver"]['driver_id'],
-            order=index,
+            location_id=assignment["location_id"],
+            driver_id=assignment["driver_id"],
+            order=assignment['order'],
             estimated_arrival=assignment['estimated_arrival']
         )
         db.session.add(new_entry)
@@ -106,4 +102,4 @@ if __name__ == "__main__":
         run_optimization(route.id, user.id)
         optimizedRout = OptimizedRoute.query.filter_by(route_id=route.id).all()
         for i in optimizedRout:
-            print(i)
+            print(i.location.country, i.location.city, i.location.address, i.estimated_arrival, i.location.id, i.driver)

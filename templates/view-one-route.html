@@ -51,26 +51,29 @@ block content %}
       <div class="table__cell">Delete</div>
     </div>
 
-    {% for loc in route.locations %}
+    {% for route in optimized_routes %}
     <div class="table__row">
       <div class="table__cell">{{ loop.index }}</div>
       <div class="table__cell">
-        {{ loc.country }} {{ loc.city }} {{ loc.address }}
+        {{ route.location.country }} {{ route.location.city }} {{
+        route.location.address }}
       </div>
-      <div class="table__cell">{{ loc.latitude }}, {{ loc.longitude }}</div>
-      <div class="table__cell">{{ loc.timeframe }}</div>
       <div class="table__cell">
-        <!-- {% if loc.driver %} {{ loc.driver.name }} {{ loc.driver.surname }}
-        (Priority: {{ loc.driver.priority }}) {% else %} No Driver Assigned {%
-        endif %} -->
-        Empty for now
+        {{ route.location.latitude }}, {{ route.location.longitude }}
+      </div>
+      <div class="table__cell">{{ route.location.timeframe }}</div>
+      <div class="table__cell">
+        {% if route.driver %} {{ route.driver.first_name }} {{
+        route.driver.last_name }} (Priority: {{ route.driver.priority }}) {%
+        else %} No Driver Assigned {% endif %}
       </div>
       <div class="table__cell">
         <a
-          href="{{ url_for('delete_location', location_id=loc.id) }}"
+          href="{{ url_for('delete_location', location_id=route.location.id) }}"
           class="table__link table__link--delete"
-          >Delete</a
         >
+          Delete
+        </a>
       </div>
     </div>
     {% endfor %}

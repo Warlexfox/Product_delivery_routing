@@ -102,10 +102,11 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: #
                 "timeframe": delivery['timeframe'],
                 "timeframe_start": delivery['timeframe_start'],
                 "timeframe_end": delivery['timeframe_end'],
-                "driver": None,
+                "driver_id": None,
                 "order": len(optimized_route) + 1,
                 'estimated_arrival': "cant deliver this package",
-                "deliverable": False
+                "deliverable": False,
+                "location_id": delivery['id']
             })
             continue
 
@@ -134,17 +135,17 @@ def optimize_route(drivers: List[Dict], deliveries: List[Dict]) -> List[Dict]: #
             "timeframe": delivery['timeframe'],
             "timeframe_start": delivery['timeframe_start'],
             "timeframe_end": delivery['timeframe_end'],
-            "driver": best_driver,
+            "driver_id": best_driver["driver_id"],
             "order": len(optimized_route) + 1,
             'estimated_arrival': estimated_arrival,
-            "deliverable": True
+            "deliverable": True,
+            "location_id": delivery['id']
         })
 
     # Grupē piegādes pēc šoferiem
     grouped_deliveries = {}
     for route in optimized_route:
-        driver = route['driver']
-        driver_id = driver['driver_id'] if driver else "unassigned"
+        driver_id = route['driver_id']
         if driver_id not in grouped_deliveries:
             grouped_deliveries[driver_id] = []
         grouped_deliveries[driver_id].append(route)

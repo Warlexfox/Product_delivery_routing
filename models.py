@@ -24,6 +24,7 @@ class Route(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     locations = db.relationship('Location', backref='route', lazy=True, cascade='all, delete-orphan')
+    optimized_routes = db.relationship('OptimizedRoute', backref='route', lazy=True, cascade='all, delete-orphan')    
 
     def __repr__(self):
         return f"<Route {self.name}>"
@@ -60,18 +61,15 @@ class Drivers(db.Model):
 class OptimizedRoute(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     route_id = db.Column(db.Integer, db.ForeignKey('route.id'), nullable=False)
-    country = db.Column(db.String(255), nullable=False)
-    city = db.Column(db.String(255), nullable=False)
-    address = db.Column(db.String(255), nullable=False)
-    latitude = db.Column(db.Float, nullable=True)
-    longitude = db.Column(db.Float, nullable=True)
-    timeframe = db.Column(db.String(50), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'), nullable=False)  # Foreign key to Location
     driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), nullable=True)
     order = db.Column(db.Integer, nullable=False)
     estimated_arrival = db.Column(db.String(50), nullable=False)
     deliverable = db.Column(db.Boolean, nullable=False, default=True)
 
+    # Relationships
     driver = db.relationship('Drivers', backref='optimized_routes', lazy=True)
+    location = db.relationship('Location', backref=db.backref('optimized_routes', cascade='all, delete-orphan'))
 
     def __repr__(self):
-        return f"<OptimizedRoute Address={self.country} {self.city} {self.address} DriverID={self.driver_id} Order={self.order} Estimated arrival={self.estimated_arrival}>"
+        return f"<OptimizedRoute LocationID={self.location_id} DriverID={self.driver_id} Order={self.order} Estimated arrival={self.estimated_arrival}>"
