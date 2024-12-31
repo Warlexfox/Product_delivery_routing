@@ -9,8 +9,11 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
 
-from models import User, Drivers, Route, Location
+# Import models and routes after initializing app and db
+from models import User, Drivers, Route, Location, OptimizedRoute
 import routes
+
+from utils import run_optimization
 
 def seed_database():
     if User.query.first():
@@ -23,7 +26,7 @@ def seed_database():
     db.session.add(test_user)
     db.session.commit()
 
-    # Add routes
+    # Add a test route
     test_route = Route(name='Test Route NR.1', user=test_user)
     db.session.add(test_route)
     db.session.commit()
@@ -56,9 +59,7 @@ def seed_database():
     db.session.add_all([driver1, driver2, driver3])
     db.session.commit()
 
-    # Add locations and assign them a driver
-    # Assign first location to driver1, second to driver2
-
+    # Add locations for the test route
     location_1 = Location(
         country='Latvia',
         city='Riga',
@@ -69,7 +70,7 @@ def seed_database():
         route_id=test_route.id,
     )
     location_2 = Location(
-        country='Latvia', 
+        country='Latvia',
         city='Riga',
         address='Daugavgrivas iela 2',
         latitude=56.959268,
@@ -117,6 +118,11 @@ def seed_database():
     db.session.commit()
 
     print('Test data inserted.')
+
+    # Run optimization for the test route
+    run_optimization(test_route.id, test_user.id)
+    print('Optimization completed after seeding data.')
+
 
 with app.app_context():
     db.drop_all()
