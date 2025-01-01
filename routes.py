@@ -1,8 +1,11 @@
 from app import app, db
 from flask import render_template, redirect, url_for, request, flash, session
 from models import OptimizedRoute, User, Location, Route, Drivers
-from forms import LoginForm, RegisterForm, LocationForm, UploadLocationsForm, RenameRouteForm, EditDriverPriorityForm
-from utils import get_coordinates
+from forms import (
+    LoginForm, RegisterForm, LocationForm, UploadLocationsForm,
+    RenameRouteForm, EditDriverPriorityForm
+)
+from utils import get_coordinates, run_optimization
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import json
@@ -105,6 +108,12 @@ def create_route():
 @login_required
 def delete_route(route_id):
     route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
+    
+    # Clear optimized routes for this route
+    OptimizedRoute.query.filter_by(route_id=route_id).delete()
+    db.session.commit()
+
+    # Now delete the route
     db.session.delete(route)
     db.session.commit()
     flash('The route has been deleted', 'success')
@@ -153,60 +162,68 @@ def add_location(route_id):
         country = form.country.data
         city = form.city.data
         address = form.address.data
-        priority = form.priority.data
         timeframe = form.timeframe.data
 
         latitude, longitude = get_coordinates(country, city, address)
         if latitude is None or longitude is None:
             return redirect(url_for('add_location', route_id=route_id))
+
+        # Insert into locations
         location = Location(
             country=country,
             city=city,
             address=address,
             latitude=latitude,
             longitude=longitude,
-            priority=int(priority),
             timeframe=timeframe,
             route_id=route_id
         )
         db.session.add(location)
         db.session.commit()
         flash('Location added successfully', 'success')
+
+        # Re-run optimization
+        run_optimization(route_id, session['user_id'])
+
         return redirect(url_for('view_route', route_id=route_id))
     elif upload_form.submit_upload.data and upload_form.validate_on_submit():
         file = upload_form.file.data
         filename = secure_filename(file.filename)
         if filename.endswith('.json') or filename.endswith('.csv'):
             try:
+                data = []
                 if filename.endswith('.json'):
                     data = json.load(file)
                 else:
-                    data = []
                     csv_reader = csv.DictReader(StringIO(file.read().decode('utf-8')))
                     for row in csv_reader:
                         data.append(row)
+
                 for item in data:
                     country = item.get('country', '')
                     city = item.get('city', '')
                     address = item.get('address')
-                    priority = item.get('priority', '1')
                     timeframe = item.get('timeframe', '')
                     latitude, longitude = get_coordinates(country, city, address)
                     if latitude is None or longitude is None:
                         continue
-                    location = Location(
+                    loc = Location(
                         country=country,
                         city=city,
                         address=address,
                         latitude=latitude,
                         longitude=longitude,
-                        priority=int(priority),
                         timeframe=timeframe,
                         route_id=route_id
                     )
-                    db.session.add(location)
+                    db.session.add(loc)
+
                 db.session.commit()
                 flash('Locations loaded successfully', 'success')
+
+                # Re-run optimization
+                run_optimization(route_id, session['user_id'])
+
             except Exception as e:
                 flash(f'Error processing file: {e}', 'error')
         else:
@@ -222,9 +239,14 @@ def delete_location(location_id):
         flash('You do not have permission to delete this location', 'error')
         return redirect(url_for('view_routes'))
     route_id = location.route_id
+
     db.session.delete(location)
     db.session.commit()
     flash('Location has been removed', 'success')
+
+    # Re-run optimization
+    run_optimization(route_id, session['user_id'])
+
     return redirect(url_for('view_route', route_id=route_id))
 
 @app.route('/view_route_map/<int:route_id>')
@@ -243,34 +265,57 @@ def view_route_map(route_id):
 @app.route('/export_route/<int:route_id>')
 @login_required
 def export_route(route_id):
+    """
+    Exports data from the OptimizedRoute table
+    so the user can see the result of the algorithm.
+    """
     route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
-    locations = route.locations
-    data = [{
-        'address': loc.address,
-        'coordinates': f'{loc.latitude}, {loc.longitude}',
-        'priority': loc.priority,
-        'timeframe': loc.timeframe
-    } for loc in locations]
+    optimized_locations = (
+        OptimizedRoute.query
+        .filter_by(route_id=route_id)
+        .order_by(OptimizedRoute.order)
+        .all()
+    )
+    data = []
+    for opt in optimized_locations:
+        loc = opt.location
+        driver_str = (
+            f"{opt.driver.name} {opt.driver.surname} [Priority={opt.driver.priority}]"
+            if opt.driver else
+            "No Driver"
+        )
+        data.append({
+            'address': loc.address,
+            'coordinates': f'{loc.latitude}, {loc.longitude}',
+            'timeframe': loc.timeframe,
+            'driver': driver_str,
+            'estimated_arrival': opt.estimated_arrival,
+            'deliverable': opt.deliverable
+        })
+
     response = app.response_class(
         response=json.dumps(data, ensure_ascii=False),
         mimetype='application/json',
-        headers={'Content-Disposition': f'attachment;filename=route_{route_id}.json'}
+        headers={'Content-Disposition': f'attachment;filename=optimized_route_{route_id}.json'}
     )
     return response
 
 @app.route('/export_locations/<int:route_id>')
 @login_required
 def export_locations(route_id):
+    """
+    Exports data from the Location table (raw locations),
+    without the optimization details.
+    """
     route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
     locations = route.locations
     si = StringIO()
     writer = csv.writer(si)
-    writer.writerow(['address', 'coordinates', 'priority', 'timeframe'])
+    writer.writerow(['address', 'coordinates', 'timeframe'])
     for loc in locations:
         writer.writerow([
             loc.address,
             f'{loc.latitude}, {loc.longitude}',
-            loc.priority,
             loc.timeframe
         ])
     output = si.getvalue()
@@ -284,7 +329,6 @@ def export_locations(route_id):
 @app.route('/view_drivers')
 @login_required
 def view_drivers():
-    # Show only drivers for the current user
     user_id = session['user_id']
     drivers = Drivers.query.filter_by(user_id=user_id).all()
     return render_template('view-drivers.html', drivers=drivers)
