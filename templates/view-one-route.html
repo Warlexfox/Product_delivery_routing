@@ -47,12 +47,15 @@ block content %}
       <div class="table__cell">Address</div>
       <div class="table__cell">Coordinates</div>
       <div class="table__cell">Timeframe</div>
+      <div class="table__cell">Expected time of arrival</div>
       <div class="table__cell">Driver</div>
       <div class="table__cell">Delete</div>
     </div>
 
     {% for route in optimized_routes %}
-    <div class="table__row">
+    <div
+      class="table__row {% if not route.deliverable %}table__row--inactive{% endif %}"
+    >
       <div class="table__cell">{{ loop.index }}</div>
       <div class="table__cell">
         {{ route.location.country }} {{ route.location.city }} {{
@@ -63,9 +66,12 @@ block content %}
       </div>
       <div class="table__cell">{{ route.location.timeframe }}</div>
       <div class="table__cell">
-        {% if route.driver %} {{ route.driver.first_name }} {{
-        route.driver.last_name }} (Priority: {{ route.driver.priority }}) {%
-        else %} No Driver Assigned {% endif %}
+        {% if route.deliverable %} {{ route.estimated_arrival }} {% else %} - {%
+        endif %}
+      </div>
+      <div class="table__cell">
+        {% if route.driver %} {{ route.driver.name }} {{ route.driver.surname }}
+        {% else %} Can't deliver this parcel {% endif %}
       </div>
       <div class="table__cell">
         <a

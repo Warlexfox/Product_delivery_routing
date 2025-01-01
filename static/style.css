@@ -190,6 +190,11 @@ input[type="number"] {
   background-color: var(--gray--2);
 }
 
+.table__row--inactive .table__cell {
+  background-color: #e0e0e0 !important;
+  color: #6c757d;
+}
+
 .table__cell {
   display: flex;
   align-items: center;
@@ -350,7 +355,7 @@ input[type="number"] {
 }
 
 .one-route-table {
-  grid-template-columns: 1fr 2fr 3fr 2fr 2fr 1fr;
+  grid-template-columns: 0.5fr 3fr 2fr 2fr 2fr 2fr 1fr;
 }
 
 /* ADD LOCATION PAGE */
