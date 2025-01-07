@@ -1,3 +1,4 @@
+import random
 from app import app, db
 from flask import render_template, redirect, url_for, request, flash, session
 from models import OptimizedRoute, User, Location, Route, Drivers
@@ -253,12 +254,41 @@ def delete_location(location_id):
 @login_required
 def view_route_map(route_id):
     route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
-    locations = route.locations
-    locations_data = [{
-        'latitude': loc.latitude,
-        'longitude': loc.longitude,
-        'address': loc.address
-    } for loc in locations]
+    optimized_routes = (
+        OptimizedRoute.query
+        .filter_by(route_id=route_id)
+        .order_by(OptimizedRoute.driver_id, OptimizedRoute.order)
+        .all()
+    )
+    
+    driver_colors = {}
+    locations_data = []
+
+    grouped_routes = {}
+    for opt in optimized_routes:
+        driver = opt.driver
+        driver_id = driver.id if driver else None
+
+        if driver_id not in grouped_routes:
+            grouped_routes[driver_id] = {'driver': driver, 'locations': []}
+
+        grouped_routes[driver_id]['locations'].append({
+            'latitude': opt.location.latitude,
+            'longitude': opt.location.longitude,
+            'address': opt.location.address,
+            'order': len(grouped_routes[driver_id]['locations']) + 1,
+            'depot': driver.depot_address if driver else None,
+        })
+
+        if driver_id and driver_id not in driver_colors:
+            driver_colors[driver_id] = f"#{''.join([format(i, '02x') for i in (random.randint(0, 255) for _ in range(3))])}"
+
+    for driver_id, data in grouped_routes.items():
+        for loc in data['locations']:
+            loc['driver'] = f"{data['driver'].name} {data['driver'].surname}" if data['driver'] else "No Driver"
+            loc['color'] = driver_colors.get(driver_id, '#007BFF') 
+            locations_data.append(loc)
+
     locations_json = json.dumps(locations_data, ensure_ascii=False)
     return render_template('view-route-map.html', route=route, locations_json=locations_json)
 
