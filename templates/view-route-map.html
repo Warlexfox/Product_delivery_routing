@@ -36,46 +36,46 @@
     }).addTo(map);
 
     var locations = JSON.parse(`{{ locations_json | safe }}`);
-    var latlngs = [];
+    var latlngsByDriver = {};
 
     locations.forEach(function(location) {
         var latlng = [location.latitude, location.longitude];
-        latlngs.push(latlng);
-        L.marker(latlng)
-            .addTo(map)
-            .bindPopup(location.address);
+
+        if (!latlngsByDriver[location.driver]) {
+            latlngsByDriver[location.driver] = { latlngs: [], color: location.color };
+        }
+        latlngsByDriver[location.driver].latlngs.push(latlng);
+
+        var marker = L.marker(latlng).addTo(map);
+        marker.bindPopup(
+            `<strong>${location.driver}</strong><br>` +
+            `Depot: ${location.depot || 'N/A'}<br>` +
+            `Address: ${location.address}<br>` +
+            `Route Order: ${location.order}`
+        );
     });
 
-    if (latlngs.length > 1) {
-        var waypoints = latlngs.map(function(latlng) {
-            return latlng[1] + ',' + latlng[0];
-        }).join(';');
+    Object.keys(latlngsByDriver).forEach(function(driver) {
+        var data = latlngsByDriver[driver];
+        if (data.latlngs.length > 1) {
+            var waypoints = data.latlngs.map(function(latlng) {
+                return latlng[1] + ',' + latlng[0];
+            }).join(';');
 
-        var osrmUrl = 'https://router.project-osrm.org/route/v1/driving/' + waypoints + '?overview=full&geometries=geojson';
+            var osrmUrl = 'https://router.project-osrm.org/route/v1/driving/' + waypoints + '?overview=full&geometries=geojson';
 
-        fetch(osrmUrl)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                if (data.routes && data.routes.length > 0) {
-                    var routeGeoJSON = data.routes[0].geometry;
-                    var routeLine = L.geoJSON(routeGeoJSON, {
-                        style: {
-                            color: '#007BFF',
-                            weight: 4,
-                            opacity: 0.7
-                        }
-                    }).addTo(map);
-                    map.fitBounds(routeLine.getBounds());
-                } else {
-                    alert('Failed to build route');
-                }
-            })
-            .catch(function(err) {
-                console.error(err);
-                alert('Error receiving route from OSRM');
-            });
-    }
+            fetch(osrmUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.routes && data.routes.length > 0) {
+                        var routeGeoJSON = data.routes[0].geometry;
+                        L.geoJSON(routeGeoJSON, {
+                            style: { color: latlngsByDriver[driver].color, weight: 4, opacity: 0.7 }
+                        }).addTo(map);
+                    }
+                })
+                .catch(err => console.error('Error fetching route:', err));
+        }
+    });
 </script>
 {% endblock %}
