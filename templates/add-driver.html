@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Add Driver{% endblock %}
+{% block content %}
+<section class="add-driver-section">
+    <h1 class="header--primary">Add Driver</h1>
+
+    <!-- Single Driver Form -->
+    <form method="POST" class="form form--add-driver">
+        {{ driver_form.hidden_tag() }}
+        <div class="form__group">
+            {{ driver_form.name.label(class="form__label") }}
+            {{ driver_form.name(class="form__input", placeholder="Enter driver's name", required=True) }}
+        </div>
+        <div class="form__group">
+            {{ driver_form.surname.label(class="form__label") }}
+            {{ driver_form.surname(class="form__input", placeholder="Enter driver's surname", required=True) }}
+        </div>
+        <div class="form__group">
+            {{ driver_form.tel_num.label(class="form__label") }}
+            {{ driver_form.tel_num(class="form__input", placeholder="Enter phone number", required=True) }}
+        </div>
+        <div class="form__group">
+            {{ driver_form.depot_address.label(class="form__label") }}
+            {{ driver_form.depot_address(class="form__input", placeholder="Enter depot address", required=True) }}
+        </div>
+        <div class="form__group">
+            {{ driver_form.priority.label(class="form__label") }}
+            {{ driver_form.priority(class="form__input", required=True) }}
+        </div>
+        {{ driver_form.submit_driver(class="btn--default form__btn-submit") }}
+    </form>
+
+    <!-- Bulk Upload Drivers -->
+    <h2 class="header--secondary">Or add drivers from a file</h2>
+    <p class="file-upload-note">*Only JSON or CSV files are accepted</p>
+    <form method="POST" enctype="multipart/form-data" class="form form--file-upload">
+        {{ upload_form.hidden_tag() }}
+        {{ upload_form.file(class="file-upload-btn", required=True) }}
+        {{ upload_form.submit_upload_drivers(class="btn--default") }}
+    </form>
+
+</section>
+{% endblock %}

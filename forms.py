@@ -33,3 +33,15 @@ class RenameRouteForm(FlaskForm):
 class EditDriverPriorityForm(FlaskForm):
     priority = IntegerField('Driver Priority', validators=[DataRequired(), NumberRange(min=1, message='Priority must be >= 1')])
     submit = SubmitField('Save')
+
+class DriverForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    surname = StringField('Surname', validators=[DataRequired()])
+    tel_num = IntegerField('Phone number', validators=[DataRequired()])
+    depot_address = StringField('Depot Address', validators=[DataRequired()])
+    priority = IntegerField('Priority', validators=[DataRequired(), NumberRange(min=1, message='Priority must be >= 1')])
+    submit_driver = SubmitField('Save Driver')
+
+class UploadDriversForm(FlaskForm):
+    file = FileField('Choose file', validators=[DataRequired()])
+    submit_upload_drivers = SubmitField('Upload Drivers')

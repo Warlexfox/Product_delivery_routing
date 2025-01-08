@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, request, flash, session
 from models import OptimizedRoute, User, Location, Route, Drivers
 from forms import (
     LoginForm, RegisterForm, LocationForm, UploadLocationsForm,
-    RenameRouteForm, EditDriverPriorityForm
+    RenameRouteForm, EditDriverPriorityForm, DriverForm, UploadDriversForm
 )
 from utils import get_coordinates, run_optimization
 from datetime import datetime
@@ -263,8 +263,10 @@ def view_route_map(route_id):
     
     driver_colors = {}
     locations_data = []
-
     grouped_routes = {}
+
+    import random
+
     for opt in optimized_routes:
         driver = opt.driver
         driver_id = driver.id if driver else None
@@ -281,6 +283,7 @@ def view_route_map(route_id):
         })
 
         if driver_id and driver_id not in driver_colors:
+            # Generate a random color for each driver
             driver_colors[driver_id] = f"#{''.join([format(i, '02x') for i in (random.randint(0, 255) for _ in range(3))])}"
 
     for driver_id, data in grouped_routes.items():
@@ -377,3 +380,68 @@ def edit_driver_priority(driver_id):
     elif request.method == 'GET':
         form.priority.data = driver.priority
     return render_template('edit-driver-priority.html', form=form, driver=driver)
+
+@app.route('/add_driver', methods=['GET', 'POST'])
+@login_required
+def add_driver():
+    user_id = session['user_id']
+    driver_form = DriverForm()
+    upload_form = UploadDriversForm()
+
+    if driver_form.submit_driver.data and driver_form.validate_on_submit():
+        new_driver = Drivers(
+            name=driver_form.name.data,
+            surname=driver_form.surname.data,
+            tel_num=driver_form.tel_num.data,
+            depot_address=driver_form.depot_address.data,
+            priority=driver_form.priority.data,
+            user_id=user_id
+        )
+        db.session.add(new_driver)
+        db.session.commit()
+        flash('Driver added successfully', 'success')
+        return redirect(url_for('view_drivers'))
+
+    elif upload_form.submit_upload_drivers.data and upload_form.validate_on_submit():
+        file = upload_form.file.data
+        filename = secure_filename(file.filename)
+        if filename.endswith('.json') or filename.endswith('.csv'):
+            try:
+                data = []
+                if filename.endswith('.json'):
+                    data = json.load(file)
+                else:
+                    csv_reader = csv.DictReader(StringIO(file.read().decode('utf-8')))
+                    for row in csv_reader:
+                        data.append(row)
+
+                for item in data:
+                    name = item.get('name')
+                    surname = item.get('surname')
+                    tel_num = item.get('tel_num', 0)
+                    depot_address = item.get('depot_address', '')
+                    priority = item.get('priority', 1)
+
+                    if not name or not surname or not depot_address:
+                        continue
+
+                    new_drv = Drivers(
+                        name=name,
+                        surname=surname,
+                        tel_num=int(tel_num),
+                        depot_address=depot_address,
+                        priority=int(priority),
+                        user_id=user_id
+                    )
+                    db.session.add(new_drv)
+
+                db.session.commit()
+                flash('Drivers uploaded successfully', 'success')
+            except Exception as e:
+                flash(f'Error processing file: {e}', 'error')
+        else:
+            flash('Invalid file format. Only JSON or CSV files are accepted', 'error')
+
+        return redirect(url_for('view_drivers'))
+
+    return render_template('add-driver.html', driver_form=driver_form, upload_form=upload_form)
