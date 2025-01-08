@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}Add Location{% endblock %} {% block
 content %}
 <section class="add-location-section">
-  <div class="breadcrumb">
+  <div class="breadcrumb mb-2">
     <a href="{{ url_for('view_routes') }}" class="breadcrumb__link">Routes</a> /
     <a
       href="{{ url_for('view_route', route_id=route.id) }}"
@@ -15,7 +15,14 @@ content %}
       >Add Location</a
     >
   </div>
+
   <h1 class="header--primary">Add Location</h1>
+
+  <a
+    href="{{ url_for('view_route', route_id=route.id) }}"
+    class="btn--default mb-2"
+    >Back</a
+  >
 
   <form method="POST" class="form form--add-location">
     {{ form.hidden_tag() }}
