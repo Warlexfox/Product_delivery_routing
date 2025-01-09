@@ -28,23 +28,21 @@ content %}
     {{ form.hidden_tag() }}
     <div class="form__group">
       {{ form.country.label(class="form__label") }} {{
-      form.country(class="form__input", placeholder="Enter country",
-      required=True) }}
+      form.country(class="form__input", placeholder="Country", required=True) }}
     </div>
     <div class="form__group">
       {{ form.city.label(class="form__label") }} {{
-      form.city(class="form__input", placeholder="Enter city", required=True) }}
+      form.city(class="form__input", placeholder="City", required=True) }}
     </div>
     <div class="form__group">
       {{ form.address.label(class="form__label") }} {{
-      form.address(class="form__input", placeholder="Enter address",
-      required=True) }}
+      form.address(class="form__input", placeholder="Adress", required=True) }}
     </div>
 
     <div class="form__group">
       {{ form.timeframe.label(class="form__label") }} {{
-      form.timeframe(class="form__input", placeholder="Enter timeframe (e.g.,
-      12:00-13:00)", required=True) }}
+      form.timeframe(class="form__input", placeholder=" 12:00-13:00",
+      required=True) }}
     </div>
 
     {{ form.submit_location(class="btn--default form__btn-submit") }}

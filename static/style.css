@@ -412,10 +412,15 @@ input[type="number"] {
 /* DRIVERS PAGE */
 
 .drivers-table {
-  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 1fr 1fr;
 }
 
 .edit-driver-priority-section {
+  max-width: 45rem;
+}
+
+/* ADD DRIVER PAGE */
+.add-driver-section {
   max-width: 45rem;
 }
 
