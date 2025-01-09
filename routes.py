@@ -256,7 +256,7 @@ def view_route_map(route_id):
     route = Route.query.filter_by(id=route_id, user_id=session['user_id']).first_or_404()
     optimized_routes = (
         OptimizedRoute.query
-        .filter_by(route_id=route_id)
+        .filter_by(route_id=route_id, deliverable=True)
         .order_by(OptimizedRoute.driver_id, OptimizedRoute.order)
         .all()
     )
