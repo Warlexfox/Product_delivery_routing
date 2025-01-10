@@ -57,3 +57,14 @@
 > - OS: Ubuntu Server <br>
 > - Tīmekļa serveris: Ngrok <br>
 > - Datu bāze: SQLite <br>
+
+### Programmatūras apraksts
+
+# Novērtējums
+
+### Novērtēšanas plāns
+
+### Novērtēšanas rezultāti
+
+# Secinājumi
+
