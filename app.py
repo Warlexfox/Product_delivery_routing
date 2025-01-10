@@ -45,7 +45,7 @@ def seed_database():
         surname='Liepa',
         user_id=test_user.id,
         tel_num=20202020,
-        depot_address='Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004',
+        depot_address='Kandavas iela 3, Daugavpils, LV-5401',
         priority=2
     )
     driver3 = Drivers(
@@ -53,7 +53,7 @@ def seed_database():
         surname='Zembkovskis',
         user_id=test_user.id,
         tel_num=20202020,
-        depot_address='Lucavsalas iela 3, Zemgales priekšpilsēta, Rīga, LV-1004',
+        depot_address='Skolas iela 3, Ventspils, LV-3601',
         priority=3
     )
     db.session.add_all([driver1, driver2, driver3])
@@ -66,7 +66,7 @@ def seed_database():
         address='Brivibas iela 1',
         latitude=56.950929,
         longitude=24.082404,
-        timeframe='09:00-12:00',
+        timeframe='09:00-10:00',
         route_id=test_route.id,
     )
     location_2 = Location(
@@ -75,43 +75,43 @@ def seed_database():
         address='Daugavgrivas iela 2',
         latitude=56.959268,
         longitude=24.055293,
-        timeframe='10:00-14:00',
+        timeframe='10:00-11:00',
         route_id=test_route.id,
     )
     location_3 = Location(
         country='Latvia',
-        city='Riga',
-        address='Tērbatas iela 50',
-        latitude=56.956855,
-        longitude=24.116152,
+        city='Daugavpils',
+        address='Rīgas iela 1',
+        latitude=55.870231,
+        longitude=26.513495,
         timeframe='09:00-10:00',
         route_id=test_route.id,
     )
     location_4 = Location(
         country='Latvia',
-        city='Riga',
-        address='Krišjāņa Valdemāra iela 75',
-        latitude=56.958537,
-        longitude=24.118081,
-        timeframe='09:00-10:00',
+        city='Ilukste',
+        address='Kastanu iela 3',
+        latitude=55.981721,
+        longitude=26.285224,
+        timeframe='10:00-11:00',
         route_id=test_route.id,
     )
     location_5 = Location(
         country='Latvia',
         city='Liepaja',
-        address='Rīgas iela 1',
-        latitude=56.504722,
-        longitude=21.010556,
-        timeframe='19:00-20:00',
+        address='Skolas iela 1',
+        latitude=56.511127,
+        longitude=21.015855,
+        timeframe='10:30-11:30',
         route_id=test_route.id,
     )
     location_6 = Location(
         country='Latvia',
-        city='Sigulda',
+        city='Ventspils',
         address='Rīgas iela 1',
-        latitude=57.1547,
-        longitude=24.8597,
-        timeframe='16:00-18:00',
+        latitude=57.393644,
+        longitude=21.559496,
+        timeframe='09:00-10:00',
         route_id=test_route.id,
     )
     db.session.add_all([location_1, location_2, location_3, location_4, location_5, location_6])
