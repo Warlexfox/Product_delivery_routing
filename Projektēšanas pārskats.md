@@ -43,7 +43,8 @@
 
 ### Algoritms
 
-Izstrādātais algoritms ir piegādes maršrutu optimizācijas risinājums, kas izmanto pielāgotu loģiku transportlīdzekļu maršrutēšanas problēmas (VRP) risināšanai. Tas ņem vērā šādus faktorus: vadītāju prioritātes, piegādes laika logus un ceļa attālumus, lai minimizētu braukšanas laiku un kopējās piegādes izmaksas.
+Izstrādātais algoritms ir piegādes maršrutu optimizācijas risinājums, kas izmanto pielāgotu loģiku transportlīdzekļu maršrutēšanas problēmas (VRP) risināšanai. Tas ņem vērā šādus faktorus: vadītāju prioritātes, piegādes laika logus un ceļa attālumus, lai minimizētu braukšanas laiku un kopējās piegādes izmaksas. Tehniskajā izpildē tiek izmantoti Python moduļi kā datetime un googlemaps, lai veiktu attālumu aprēķinus un laika logu analīzi. Algoritma mērķis ir nodrošināt augstu elastību un efektivitāti loģistikas plānošanas procesos, vienlaikus samazinot manuālas plānošanas nepieciešamību.
+
 
 Galvenās funkcionalitātes:
 
@@ -52,8 +53,6 @@ Galvenās funkcionalitātes:
 3. Vadītāju noslodzes balansēšana: Algoritms nodrošina, ka neviena vadītāja darba laiks nepārsniedz 8 stundas dienā.
 4. Neizpildāmo piegāžu identificēšana: Situācijās, kad visas piegādes nevar izpildīt pieejamo vadītāju ierobežojumu dēļ, šīs piegādes tiek atzīmētas kā "neizpildāmas" ar informāciju par iemesliem.
 5. Adrešu grupēšana pēc vadītājiem: Piegādes tiek grupētas atsevišķās sekvencēs katram vadītājam ar secības numuriem, kas atspoguļo izpildes kārtību.
-
-Tehniskajā izpildē tiek izmantoti Python moduļi kā datetime un googlemaps, lai veiktu attālumu aprēķinus un laika logu analīzi. Algoritma mērķis ir nodrošināt augstu elastību un efektivitāti loģistikas plānošanas procesos, vienlaikus samazinot manuālas plānošanas nepieciešamību.
 
 ### Konceptu modelis
 ![Konceptu modelis](https://github.com/user-attachments/assets/bfbe1728-58e8-409c-95d5-f01c99c65932)
