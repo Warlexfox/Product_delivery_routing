@@ -265,8 +265,6 @@ def view_route_map(route_id):
     locations_data = []
     grouped_routes = {}
 
-    import random
-
     for opt in optimized_routes:
         driver = opt.driver
         driver_id = driver.id if driver else None
@@ -282,11 +280,11 @@ def view_route_map(route_id):
             'depot': driver.depot_address if driver else None,
         })
 
-        if driver_id and driver_id not in driver_colors:
-            # Generate a random color for each driver
+    import random
+    for driver_id, data in grouped_routes.items():
+        if driver_id not in driver_colors:
             driver_colors[driver_id] = f"#{''.join([format(i, '02x') for i in (random.randint(0, 255) for _ in range(3))])}"
 
-    for driver_id, data in grouped_routes.items():
         for loc in data['locations']:
             loc['driver'] = f"{data['driver'].name} {data['driver'].surname}" if data['driver'] else "No Driver"
             loc['color'] = driver_colors.get(driver_id, '#007BFF') 
@@ -445,3 +443,15 @@ def add_driver():
         return redirect(url_for('view_drivers'))
 
     return render_template('add-driver.html', driver_form=driver_form, upload_form=upload_form)
+
+@app.route('/delete_driver/<int:driver_id>')
+@login_required
+def delete_driver(driver_id):
+    user_id = session['user_id']
+    driver = Drivers.query.filter_by(id=driver_id, user_id=user_id).first_or_404()
+    
+    db.session.delete(driver)
+    db.session.commit()
+    
+    flash('Driver has been removed', 'success')
+    return redirect(url_for('view_drivers'))

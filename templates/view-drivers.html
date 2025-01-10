@@ -1,12 +1,11 @@
-{% extends "base.html" %} {% block title %}Drivers{% endblock %} {% block
-content %}
+{% extends "base.html" %}
+{% block title %}Drivers{% endblock %}
+{% block content %}
 <section class="drivers-section">
   <h1 class="header--primary">Drivers</h1>
 
   <!-- Link to add driver page -->
-  <a href="{{ url_for('add_driver') }}" class="btn--default mb-2"
-    >Add New Driver</a
-  >
+  <a href="{{ url_for('add_driver') }}" class="btn--default mb-2">Add New Driver</a>
 
   <div class="table drivers-table">
     <!-- Header Row -->
@@ -31,11 +30,15 @@ content %}
         <a
           href="{{ url_for('edit_driver_priority', driver_id=driver.id) }}"
           class="table__link"
-          >Edit</a
-        >
+        >Edit</a>
       </div>
       <div class="table__cell">
-        <a href="#" class="table__link">Delete</a>
+        <a
+          href="{{ url_for('delete_driver', driver_id=driver.id) }}"
+          class="table__link table__link--delete"
+        >
+          Delete
+        </a>
       </div>
     </div>
     {% endfor %}
