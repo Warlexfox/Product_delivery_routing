@@ -72,12 +72,12 @@ Galvenās funkcijas:
 ### Programmatūras apraksts
 Projekta rezultātā tika izveidota tīmekļvietne, kurā var iegūt optimizētus piegādes maršrutus ievadot pieejamos autovadītājus un nepieciešamos galapunktus. 
 Tīmeķlvietnē ir īstenotas sekojošas lietas:
-> Autorizēšanās
-> Autovadītāju pievienošana un dzēšana
-> Vairāku neatkarīgu maršrutu izveidi un dzēšanu.
-> Iespēju maršrutam importēt sarakstu ar galapunktiem, kā arī manuāli ievadīt galapunktu datus un dzēst maršrutam galapunktus. Veicot pievienošanu vai dzēšanu, optimizētais maršruts tiek pārrēķināts.
-> Iespēju eksportēt optimizēto maršrutu
-> Optimizēto maršrutu grafiska pārskatīšana uz kartes ar vizuāli atšķiramiem dažādu vadītāju piegādes maršrutiem.
+> - Autorizēšanās
+> - Autovadītāju pievienošana un dzēšana
+> - Vairāku neatkarīgu maršrutu izveidi un dzēšanu.
+> - Iespēju maršrutam importēt sarakstu ar galapunktiem, kā arī manuāli ievadīt galapunktu datus un dzēst maršrutam galapunktus. Veicot pievienošanu vai dzēšanu, optimizētais maršruts tiek pārrēķināts.
+> - Iespēju eksportēt optimizēto maršrutu
+> - Optimizēto maršrutu grafiska pārskatīšana uz kartes ar vizuāli atšķiramiem dažādu vadītāju piegādes maršrutiem.
 
 # Novērtējums
 
