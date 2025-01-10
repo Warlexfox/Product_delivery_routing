@@ -47,11 +47,11 @@ Izstrādātais algoritms ir piegādes maršrutu optimizācijas risinājums, kas 
 
 Galvenās funkcionalitātes:
 
-    Maršrutu plānošana: Algoritms izvērtē pieejamos vadītājus un piegādes punktus, aprēķina attālumus un braukšanas laikus, un izvēlas optimālo piegādes secību.
-    Laika logu ievērošana: Katrs piegādes punkts tiek plānots tā, lai ievērotu noteiktos piegādes laika logus, vienlaikus maksimāli samazinot kavējumus.
-    Vadītāju noslodzes balansēšana: Algoritms nodrošina, ka neviena vadītāja darba laiks nepārsniedz 8 stundas dienā.
-    Neizpildāmo piegāžu identificēšana: Situācijās, kad visas piegādes nevar izpildīt pieejamo vadītāju ierobežojumu dēļ, šīs piegādes tiek atzīmētas kā "neizpildāmas" ar informāciju par iemesliem.
-    Adrešu grupēšana pēc vadītājiem: Piegādes tiek grupētas atsevišķās sekvencēs katram vadītājam ar secības numuriem, kas atspoguļo izpildes kārtību.
+1. Maršrutu plānošana: Algoritms izvērtē pieejamos vadītājus un piegādes punktus, aprēķina attālumus un braukšanas laikus, un izvēlas optimālo piegādes secību.
+2. Laika logu ievērošana: Katrs piegādes punkts tiek plānots tā, lai ievērotu noteiktos piegādes laika logus, vienlaikus maksimāli samazinot kavējumus.
+3. Vadītāju noslodzes balansēšana: Algoritms nodrošina, ka neviena vadītāja darba laiks nepārsniedz 8 stundas dienā.
+4. Neizpildāmo piegāžu identificēšana: Situācijās, kad visas piegādes nevar izpildīt pieejamo vadītāju ierobežojumu dēļ, šīs piegādes tiek atzīmētas kā "neizpildāmas" ar informāciju par iemesliem.
+5. Adrešu grupēšana pēc vadītājiem: Piegādes tiek grupētas atsevišķās sekvencēs katram vadītājam ar secības numuriem, kas atspoguļo izpildes kārtību.
 
 Tehniskajā izpildē tiek izmantoti Python moduļi kā datetime un googlemaps, lai veiktu attālumu aprēķinus un laika logu analīzi. Algoritma mērķis ir nodrošināt augstu elastību un efektivitāti loģistikas plānošanas procesos, vienlaikus samazinot manuālas plānošanas nepieciešamību.
 
