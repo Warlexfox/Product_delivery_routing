@@ -83,6 +83,22 @@ Tīmeķlvietnē ir īstenotas sekojošas lietas:
 
 ### Novērtēšanas plāns
 
+#### Mērķis
+
+Novērtējuma mērķis ir pārbaudīt, vai maršrutu optimizācijas algoritms spēj nodrošināt efektīvu maršrutu plānošanu, samazinot vadītāju darba slodzi un laika patēriņu, kā arī identificēt situācijas, kurās piegādes nav iespējamas, ņemot vērā laika logus un resursu pieejamību.
+
+#### Ieejas mainīgie
+
+> - Vadītāju saraksts ar sākotnējo atrašanās vietu un prioritāti.
+> - Piegādes vietas ar laika logiem un koordinātēm.
+> - Algoritma iestatījumi (maksimālais autovadītāja darba laiks, vidējais ātrums).
+
+#### Novērtēšanas mēri
+
+> - Vai algoritms ir respektējis autovadītāju darba laikus
+> - Vai piegādēm netiek pārsniegti laika logi
+> - Cik daudz piegāžu tiek novērtēti, kā nepiegādājami
+
 ### Novērtēšanas rezultāti
 
 # Secinājumi
