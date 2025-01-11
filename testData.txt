@@ -1,0 +1,152 @@
+# 0 test
+location_1 = Location(
+        country='Latvia',
+        city='Riga',
+        address='Brivibas iela 1',
+        latitude=56.950929,
+        longitude=24.082404,
+        timeframe='09:00-10:00',
+        route_id=test_route.id,
+    )
+    location_2 = Location(
+        country='Latvia',
+        city='Riga',
+        address='Daugavgrivas iela 2',
+        latitude=56.959268,
+        longitude=24.055293,
+        timeframe='10:00-11:00',
+        route_id=test_route.id,
+    )
+    location_3 = Location(
+        country='Latvia',
+        city='Daugavpils',
+        address='Rīgas iela 1',
+        latitude=55.870231,
+        longitude=26.513495,
+        timeframe='09:00-10:00',
+        route_id=test_route.id,
+    )
+    location_4 = Location(
+        country='Latvia',
+        city='Ilukste',
+        address='Kastanu iela 3',
+        latitude=55.981721,
+        longitude=26.285224,
+        timeframe='10:00-11:00',
+        route_id=test_route.id,
+    )
+    location_5 = Location(
+        country='Latvia',
+        city='Liepaja',
+        address='Skolas iela 1',
+        latitude=56.511127,
+        longitude=21.015855,
+        timeframe='10:30-11:30',
+        route_id=test_route.id,
+    )
+    location_6 = Location(
+        country='Latvia',
+        city='Ventspils',
+        address='Rīgas iela 1',
+        latitude=57.393644,
+        longitude=21.559496,
+        timeframe='09:00-10:00',
+        route_id=test_route.id,
+    )
+    db.session.add_all([location_1, location_2, location_3, location_4, location_5, location_6])
+
+
+# 1 test
+
+locations_5 = [
+    Location(country='Latvia', city='Riga', address='Brivibas iela 1', latitude=56.950929, longitude=24.082404, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jelgava', address='Liela iela 22', latitude=56.653667, longitude=23.723799, timeframe='10:30-11:30', route_id=test_route.id),
+    Location(country='Latvia', city='Sigulda', address='Pils iela 5', latitude=57.1537, longitude=24.8596, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Cesis', address='Vienibas laukums 1', latitude=57.3111, longitude=25.2745, timeframe='14:00-15:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Elizabetes iela 10', latitude=56.952528, longitude=24.114884, timeframe='16:00-17:00', route_id=test_route.id),
+]
+
+db.session.add_all(locations_5)
+
+# 2 test
+
+locations_10 = [
+    Location(country='Latvia', city='Riga', address='Brivibas iela 1', latitude=56.950929, longitude=24.082404, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jelgava', address='Liela iela 22', latitude=56.653667, longitude=23.723799, timeframe='09:30-10:30', route_id=test_route.id),
+    Location(country='Latvia', city='Sigulda', address='Pils iela 5', latitude=57.1537, longitude=24.8596, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Cesis', address='Vienibas laukums 1', latitude=57.3111, longitude=25.2745, timeframe='10:30-11:30', route_id=test_route.id),
+    Location(country='Latvia', city='Liepaja', address='Peldu iela 4', latitude=56.5057, longitude=21.0132, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Krišjāņa Valdemāra iela 75', latitude=56.958537, longitude=24.118081, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ventspils', address='Rigas iela 1', latitude=57.393644, longitude=21.559496, timeframe='13:00-14:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jurmala', address='Dzintaru prospekts 42', latitude=56.978142, longitude=23.803604, timeframe='14:00-15:00', route_id=test_route.id),
+    Location(country='Latvia', city='Daugavpils', address='Vienibas iela 13', latitude=55.870231, longitude=26.513495, timeframe='15:00-16:00', route_id=test_route.id),
+    Location(country='Latvia', city='Talsi', address='Saules iela 3', latitude=57.2497, longitude=22.5895, timeframe='16:30-17:30', route_id=test_route.id),
+]
+
+db.session.add_all(locations_10)
+
+# 3 test
+
+locations_18 = [
+    Location(country='Latvia', city='Riga', address='Brivibas iela 1', latitude=56.950929, longitude=24.082404, timeframe='09:00-09:30', route_id=test_route.id),
+    Location(country='Latvia', city='Jelgava', address='Liela iela 22', latitude=56.653667, longitude=23.723799, timeframe='09:30-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Sigulda', address='Pils iela 5', latitude=57.1537, longitude=24.8596, timeframe='10:00-10:30', route_id=test_route.id),
+    Location(country='Latvia', city='Cesis', address='Vienibas laukums 1', latitude=57.3111, longitude=25.2745, timeframe='10:30-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Liepaja', address='Peldu iela 4', latitude=56.5057, longitude=21.0132, timeframe='11:00-11:30', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Krišjāņa Valdemāra iela 75', latitude=56.958537, longitude=24.118081, timeframe='11:30-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ventspils', address='Rigas iela 1', latitude=57.393644, longitude=21.559496, timeframe='12:00-12:30', route_id=test_route.id),
+    Location(country='Latvia', city='Jurmala', address='Dzintaru prospekts 42', latitude=56.978142, longitude=23.803604, timeframe='12:30-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Daugavpils', address='Vienibas iela 13', latitude=55.870231, longitude=26.513495, timeframe='13:00-13:30', route_id=test_route.id),
+    Location(country='Latvia', city='Talsi', address='Saules iela 3', latitude=57.2497, longitude=22.5895, timeframe='13:30-14:00', route_id=test_route.id),
+    Location(country='Latvia', city='Tukums', address='Meža iela 15', latitude=56.9667, longitude=23.1556, timeframe='14:00-14:30', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Maskavas iela 120', latitude=56.9252, longitude=24.1521, timeframe='14:30-15:00', route_id=test_route.id),
+    Location(country='Latvia', city='Daugavpils', address='Rigas iela 33', latitude=55.8743, longitude=26.5367, timeframe='15:00-15:30', route_id=test_route.id),
+    Location(country='Latvia', city='Liepaja', address='Jūras iela 8', latitude=56.5127, longitude=21.0145, timeframe='15:30-16:00', route_id=test_route.id),
+    Location(country='Latvia', city='Sigulda', address='Lejas iela 11', latitude=57.1537, longitude=24.8597, timeframe='16:00-16:30', route_id=test_route.id),
+    Location(country='Latvia', city='Cesis', address='Vienibas laukums 6', latitude=57.3123, longitude=25.2735, timeframe='16:30-17:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ventspils', address='Kuldīgas iela 2', latitude=57.3948, longitude=21.5601, timeframe='17:00-17:30', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Dzirnavu iela 32', latitude=56.9528, longitude=24.1136, timeframe='17:30-18:00', route_id=test_route.id),
+]
+
+db.session.add_all(locations_18)
+
+# 4 test
+
+locations_35 = [
+    Location(country='Latvia', city='Riga', address='Brīvības iela 10', latitude=56.9519, longitude=24.1132, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Daugavgrīvas iela 15', latitude=56.9672, longitude=24.0327, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Tērbatas iela 33', latitude=56.9574, longitude=24.1239, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Kr.Valdemāra iela 12', latitude=56.9589, longitude=24.1114, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Ģertrūdes iela 23', latitude=56.9515, longitude=24.1284, timeframe='13:00-14:00', route_id=test_route.id),
+    Location(country='Latvia', city='Riga', address='Maskavas iela 260', latitude=56.9208, longitude=24.1737, timeframe='14:00-15:00', route_id=test_route.id),
+    Location(country='Latvia', city='Liepaja', address='Ganību iela 21', latitude=56.5077, longitude=21.0139, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Liepaja', address='Zivju iela 12', latitude=56.5098, longitude=21.0145, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Daugavpils', address='Rīgas iela 10', latitude=55.8704, longitude=26.5141, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Daugavpils', address='Cietokšņa iela 1', latitude=55.8710, longitude=26.5359, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ventspils', address='Lielais prospekts 35', latitude=57.3942, longitude=21.5731, timeframe='14:00-15:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ventspils', address='Tirgus iela 5', latitude=57.3908, longitude=21.5691, timeframe='15:00-16:00', route_id=test_route.id),
+    Location(country='Latvia', city='Valmiera', address='Rīgas iela 20', latitude=57.5386, longitude=25.4233, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Valmiera', address='Bastiona iela 8', latitude=57.5380, longitude=25.4279, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Sigulda', address='Pils iela 16', latitude=57.1539, longitude=24.8545, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Sigulda', address='Dārza iela 9', latitude=57.1524, longitude=24.8582, timeframe='13:00-14:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jelgava', address='Raiņa iela 7', latitude=56.6514, longitude=23.7190, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jelgava', address='Lielā iela 15', latitude=56.6491, longitude=23.7285, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ogre', address='Brīvības iela 2', latitude=56.8177, longitude=24.6134, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Ogre', address='Tīnūžu iela 14', latitude=56.8147, longitude=24.6195, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Cēsis', address='Rīgas iela 18', latitude=57.3127, longitude=25.2670, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Cēsis', address='Vienības laukums 1', latitude=57.3136, longitude=25.2707, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jēkabpils', address='Madonas iela 5', latitude=56.4977, longitude=25.8544, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Jēkabpils', address='Kurzemes iela 9', latitude=56.4981, longitude=25.8625, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Saldus', address='Rīgas iela 2', latitude=56.6636, longitude=22.4906, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Saldus', address='Kalna iela 7', latitude=56.6620, longitude=22.4881, timeframe='13:00-14:00', route_id=test_route.id),
+    Location(country='Latvia', city='Dobele', address='Bērzes iela 8', latitude=56.6228, longitude=23.2789, timeframe='14:00-15:00', route_id=test_route.id),
+    Location(country='Latvia', city='Dobele', address='Tirgoņu iela 10', latitude=56.6220, longitude=23.2772, timeframe='15:00-16:00', route_id=test_route.id),
+    Location(country='Latvia', city='Rēzekne', address='Atbrīvošanas aleja 93', latitude=56.5078, longitude=27.3433, timeframe='09:00-10:00', route_id=test_route.id),
+    Location(country='Latvia', city='Rēzekne', address='Latgales iela 15', latitude=56.5059, longitude=27.3344, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Kuldīga', address='Baznīcas iela 9', latitude=56.9672, longitude=21.9697, timeframe='11:00-12:00', route_id=test_route.id),
+    Location(country='Latvia', city='Kuldīga', address='Kalna iela 5', latitude=56.9682, longitude=21.9750, timeframe='12:00-13:00', route_id=test_route.id),
+    Location(country='Latvia', city='Talsi', address='Kroņu iela 4', latitude=57.2465, longitude=22.5882, timeframe='10:00-11:00', route_id=test_route.id),
+    Location(country='Latvia', city='Talsi', address='Saules iela 12', latitude=57.2471, longitude=22.5827, timeframe='11:00-12:00', route_id=test_route.id)
+]
+
+db.session.add_all(locations_35)
