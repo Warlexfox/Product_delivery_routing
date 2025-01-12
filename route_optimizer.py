@@ -174,15 +174,14 @@ def optimize_single_route(drivers: List[Dict], deliveries: List[Dict]) -> List[D
             "deliverable": True
         })
 
-    # Grupē piegādes pēc šoferiem,
     grouped_deliveries = {}
     for route in optimized_route:
-        driver_id = driver['driver_id'] if driver else "unassigned"
+        driver_id = route['driver_id'] if route['driver_id'] else "unassigned"  # Fix: Use route's driver_id
         if driver_id not in grouped_deliveries:
             grouped_deliveries[driver_id] = []
         grouped_deliveries[driver_id].append(route)
 
-    # Sakārto šoferus pēc to ID augošā secībā.
+    # Sakārto šoferus pēc to ID augošā secībā
     sorted_driver_ids = sorted(grouped_deliveries.keys(), key=lambda x: int(x) if x != "unassigned" else float('inf'))
 
     # Apvieno grupas un atjauno secības numurus
@@ -190,6 +189,7 @@ def optimize_single_route(drivers: List[Dict], deliveries: List[Dict]) -> List[D
     sequence_number = 1
     for driver_id in sorted_driver_ids:
         routes = grouped_deliveries[driver_id]
+        # Keep original timeframe order within each driver's routes
         sorted_routes = sorted(routes, key=lambda x: x['timeframe_start'])
         for route in sorted_routes:
             route['order'] = sequence_number
@@ -198,6 +198,7 @@ def optimize_single_route(drivers: List[Dict], deliveries: List[Dict]) -> List[D
 
     optimized_route = merged_routes
     return optimized_route
+
 
 def main():
     # Test data
