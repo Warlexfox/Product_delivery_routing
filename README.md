@@ -22,13 +22,20 @@
 8. Ja "instace" cilnē ir database.db, ieteicams to izdzēst un pēc tam palaist skriptu (Tas noderēs, kad kaut ko mainīsiet, jo, ja algoritma loģika vai elementu savienošana ar datu bāzi izmaiņas, būs kļūdas):
    ```bash
    python init_db.py
-10. Varat palaist tīmekļa lietojumprogrammu:
-     - Bez atkļūdošanas: ```flask run```
-     - Kopā ar atkļūdošanu: ```python.app.py```
+10. Palaist tīmekļa lietojumprogrammu:
+    ```flask run```
 11. Tīmekļa lietojumprogrammu var atvērt adresē, kas tiks parādīta konsolē, parasti tā ir: ```http://127.0.0.1:5000```
 12. Pēc darba pabeigšanas ļoti ieteicams atgriezties ierobežotajā režīmā, jo ```Unrestricted``` iestatījums ļauj palaist jebkurus skriptus bez autentifikācijas, kas palielina ļaunprātīga koda palaišanas risku:
     ```bash
     Set-ExecutionPolicy -ExecutionPolicy Restricted -Scope CurrentUser
+    
+## Tīmekļa lietojumprogramma tiek mitināta Azure platformā un izmanto Flask projektu, kura pamatā ir Werkzeug bibliotēka ar WSGI tīmekļa serveri.
+#### Servera adrese:
+* http://52.233.129.130:5000
+#### Login testa dati:
+* Email: 1@mail.com
+* Parole: 1
+
 ## Dalībnieki 
  - Jānis Kārlis Zāģeris
  - Oleksandr Voznenko
