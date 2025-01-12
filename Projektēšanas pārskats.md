@@ -107,7 +107,7 @@ Novērtējuma mērķis ir pārbaudīt, vai maršrutu optimizācijas algoritms sp
 
 #### Ieejas mainīgie
 
-> - Vadītāju saraksts ar sākotnējo atrašanās vietu un prioritāti.
+> - Vadītāju saraksts ar sākotnējo atrašanās vietu un prioritāti, ko nosaka vadītāja ID.
 > - Piegādes vietas ar laika logiem un koordinātēm.
 > - Algoritma iestatījumi (maksimālais autovadītāja darba laiks, vidējais ātrums).
 
@@ -119,12 +119,13 @@ Novērtējuma mērķis ir pārbaudīt, vai maršrutu optimizācijas algoritms sp
 
 ### Novērtēšanas rezultāti
 
-Novērtēšanas veikšanai tika veikti testi dodot algoritmam 3 maršrutus ar attiecīgiem galapunktu skaitiem - 5,10 un 18
+Novērtēšanas veikšanai tika veikti testi dodot algoritmam 3 maršrutus ar attiecīgiem galapunktu skaitiem - 5, 10, 18, 28
 
 | Galapunktu skaits | Galapunktu skaits, kas neievēro autovadītāju darba laiku | Nepiegādājamo galapunktu skaits | Galapunktu skaits, kas piegādāti ārpus laika loga |
 | ----------------- | -------------------------------------------------------- | ------------------------------- | ------------------------------------------------- |
 | 5                 | NA                                                       | NA                              | NA                                                |
 | 10                | NA                                                       | NA                              | NA                                                |
 | 18                | NA                                                       | NA                              | NA                                                |
+| 28                | NA                                                       | NA                              | NA                                                |
 
 # Secinājumi
