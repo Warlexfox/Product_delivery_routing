@@ -128,5 +128,9 @@ Novērtēšanas veikšanai tika veikti testi dodot algoritmam 3 maršrutus ar at
 | 28                | 16                 | 540,10 km                     |
 
 # Secinājumi
-
+Projekta rezultātā tika izstrādāts piegādes maršrutu optimizācijas risinājums, kura pamatā ir transportlīdzekļu maršrutēšanas problēmas (VRP) algoritmi. Šis risinājums ir spējīgs efektīvi samazināt piegādes laiku, optimizēt nobraukto attālumu un samazināt resursu izmantošanas izmaksas, vienlaikus uzlabojot vispārējo loģistikas procesu kvalitāti.
+Testēšanas rezultāti liecināja, ka sistēma efektīvi strādā ar mazāku galapunktu skaitu, tomēr sarežģītākos scenārijos, īpaši ar lielāku piegādes vietu skaitu, tās veiktspēja samazinājās. Šis ierobežojums norāda uz nepieciešamību attīstīt algoritma elastību un spēju risināt plašākas problēmu kopas, tostarp dinamisku datu apstrādi reāllaikā.
+Svarīgs sistēmas ieguvums ir tās spēja nodrošināt lietotājiem ērtu piegādes pārvaldību ar grafiskām vizualizācijām un datu eksportēšanas iespējām. Tīmekļvietnes funkcionalitāte, tostarp maršrutu pārskatīšana, optimizācija un autovadītāju darba plānošana, ļauj sistēmai darboties kā praktisks un lietotājam draudzīgs rīks loģistikas pārvaldībā.
+Projekta gaitā tika identificēti arī potenciāli uzlabojumu virzieni, tostarp integrācija ar noliktavu vadības sistēmām un reāllaika datu platformām, piemēram, GPS izsekošanas rīkiem. Šāda paplašināšana uzlabotu risinājuma funkcionalitāti un paplašinātu tā pielietojumu sarežģītākās loģistikas sistēmās.
+Pamatojoties uz projekta rezultātiem, var secināt, ka izstrādātais risinājums ir efektīvs un daudzsološs pielietojumam nelielos un vidējos uzņēmumos. Lai paplašinātu risinājuma pielietojumu, nākotnē būtu jāapsver uzlabojumi algoritma darbībā un sistēmas integrācijā ar citiem loģistikas rīkiem.
 
