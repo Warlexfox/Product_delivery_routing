@@ -113,19 +113,20 @@ Novērtējuma mērķis ir pārbaudīt, vai maršrutu optimizācijas algoritms sp
 
 #### Novērtēšanas mēri
 
-> - Vai algoritms ir respektējis autovadītāju darba laikus
-> - Vai piegādēm netiek pārsniegti laika logi
-> - Cik daudz piegāžu tiek novērtēti, kā nepiegādājami
+> - Cik daudz piegādes izdevās veikt.
+> - Cik ir kopējais nobrauktais attālums.
 
 ### Novērtēšanas rezultāti
 
 Novērtēšanas veikšanai tika veikti testi dodot algoritmam 3 maršrutus ar attiecīgiem galapunktu skaitiem - 5, 10, 18, 28
 
-| Galapunktu skaits | Galapunktu skaits, kas neievēro autovadītāju darba laiku | Nepiegādājamo galapunktu skaits | Galapunktu skaits, kas piegādāti ārpus laika loga |
-| ----------------- | -------------------------------------------------------- | ------------------------------- | ------------------------------------------------- |
-| 5                 | NA                                                       | NA                              | NA                                                |
-| 10                | NA                                                       | NA                              | NA                                                |
-| 18                | NA                                                       | NA                              | NA                                                |
-| 28                | NA                                                       | NA                              | NA                                                |
+| Galapunktu skaits | Izdevušās piegādes | Nobrauktais kopējais attālums |
+| ----------------- | ------------------ | ----------------------------- |
+| 5                 | 5                  | 142,33 km                     |
+| 10                | 8                  | 570,36 km                     |
+| 18                | 12                 | 627,60 km                     |
+| 28                | 16                 | 540,10 km                     |
 
 # Secinājumi
+
+
