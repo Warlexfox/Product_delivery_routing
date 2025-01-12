@@ -127,6 +127,11 @@ Novērtēšanas veikšanai tika veikti testi dodot algoritmam 3 maršrutus ar at
 | 18                | 12                 | 627,60 km                     |
 | 28                | 16                 | 540,10 km                     |
 
+# Plakāts
+
+![Cream Elegant Neutral Open Closed Sign A2 Landscape Poster](https://github.com/user-attachments/assets/e2332dfa-0cbf-497a-8f45-889065008b84)
+
+
 # Secinājumi
 Projekta rezultātā tika izstrādāts piegādes maršrutu optimizācijas risinājums, kura pamatā ir transportlīdzekļu maršrutēšanas problēmas (VRP) algoritmi. Šis risinājums ir spējīgs efektīvi samazināt piegādes laiku, optimizēt nobraukto attālumu un samazināt resursu izmantošanas izmaksas, vienlaikus uzlabojot vispārējo loģistikas procesu kvalitāti.  
 
