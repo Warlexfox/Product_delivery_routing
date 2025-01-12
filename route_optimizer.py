@@ -146,8 +146,9 @@ def optimize_single_route(drivers: List[Dict], deliveries: List[Dict]) -> List[D
                 "timeframe": delivery['timeframe'],
                 "timeframe_start": delivery['timeframe_start'],
                 "timeframe_end": delivery['timeframe_end'],
-                "driver": None,
+                "driver_id": None,
                 "order": len(optimized_route) + 1,
+                "location_id": delivery['id'],
                 'estimated_arrival': "cant deliver this package",
                 "deliverable": False
             })
@@ -166,7 +167,8 @@ def optimize_single_route(drivers: List[Dict], deliveries: List[Dict]) -> List[D
             "timeframe": delivery['timeframe'],
             "timeframe_start": delivery['timeframe_start'],
             "timeframe_end": delivery['timeframe_end'],
-            "driver": best_driver,
+            "driver_id": best_driver["driver_id"],
+            "location_id": delivery['id'],
             "order": len(optimized_route) + 1,
             'estimated_arrival': best_arrival_time,
             "deliverable": True
@@ -175,7 +177,6 @@ def optimize_single_route(drivers: List[Dict], deliveries: List[Dict]) -> List[D
     # Grupē piegādes pēc šoferiem,
     grouped_deliveries = {}
     for route in optimized_route:
-        driver = route['driver']
         driver_id = driver['driver_id'] if driver else "unassigned"
         if driver_id not in grouped_deliveries:
             grouped_deliveries[driver_id] = []
