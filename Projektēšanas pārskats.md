@@ -82,7 +82,7 @@ Tehniskajā izpildē tiek izmantoti Python moduļi kā datetime un googlemaps, l
   > - Satvars: Flask <br>
   > - Programmēšanas valoda: Python <br>
   > - OS: Ubuntu Server <br>
-  > - Tīmekļa serveris: Ngrok <br>
+  > - Tīmekļa serveris: WSGI <br>
   > - Datu bāze: SQLite <br>
 
 ### Programmatūras apraksts
