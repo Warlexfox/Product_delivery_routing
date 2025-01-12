@@ -56,7 +56,7 @@
 
 ### Algoritms
 
-Izstrādātais algoritms ir piegādes maršrutu optimizācijas risinājums, kas izmanto pielāgotu loģiku transportlīdzekļu maršrutēšanas problēmas (VRP) risināšanai. Tas ņem vērā šādus faktorus: vadītāju prioritātes, piegādes laika logus un ceļa attālumus, lai minimizētu braukšanas laiku. Tehniskajā izpildē tiek izmantoti Python moduļi kā datetime un googlemaps, lai veiktu attālumu aprēķinus un laika logu analīzi. Algoritma mērķis ir nodrošināt optimālu maršruta plānošanu loģistikas uzdevumiem, kas arī vienlaicīgi samazina manuālas plānošanas nepieciešamību.
+Izstrādātais algoritms ir piegādes maršrutu optimizācijas risinājums, kas izmanto pielāgotu loģiku transportlīdzekļu maršrutēšanas problēmas (VRP) risināšanai. Tas ņem vērā šādus faktorus: vadītāju prioritātes, piegādes laika logus un ceļa attālumus, lai minimizētu braukšanas laiku.
 
 Galvenās funkcijas:
 
@@ -65,6 +65,8 @@ Galvenās funkcijas:
 3. Vadītāju noslodzes balansēšana: Algoritms nodrošina, ka neviena vadītāja darba laiks nepārsniedz 8 stundas dienā.
 4. Neizpildāmo piegāžu identificēšana: Situācijās, kad visas piegādes nevar izpildīt pieejamo vadītāju ierobežojumu dēļ, šīs piegādes tiek atzīmētas kā "neizpildāmas".
 5. Adrešu grupēšana pēc vadītājiem: Piegādes tiek grupētas atsevišķās sekvencēs katram vadītājam ar secības numuriem, kas atspoguļo izpildes kārtību.
+
+Tehniskajā izpildē tiek izmantoti Python moduļi kā datetime un googlemaps, lai veiktu attālumu aprēķinus un laika logu analīzi. Algoritma mērķis ir nodrošināt optimālu maršruta plānošanu loģistikas uzdevumiem, kas arī vienlaicīgi samazina manuālas plānošanas nepieciešamību. Optimizācijas loģika balstās uz atkārtotu algoritma izpilde. Sākotnēji datus pārstrādā oriģinālajā secībā, tad secību sakārtojot pēc piegādāšanas laika augošā secībā un pārējās iterācijas mainot secību pēc nejaušības principa un tad sakārto augošā secībā. Šī loģika nodrošina ka tiek izmantoti labākie rezultātus, kuri tiek vērtēti pēc tās heiristiskās vērtības, kas šajā gadījumā ir izdevušās piegādes, kas ir piemērotāks lielākām ievadu datu kopām.
 
 ### Konceptu modelis
 
